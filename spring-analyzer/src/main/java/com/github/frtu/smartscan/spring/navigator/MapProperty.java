@@ -9,13 +9,18 @@ import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
+/**
+ * Support <map> tag.
+ * 
+ * @author fred
+ */
 public class MapProperty extends Property {
-	private Map<TypedStringValue, Object> map;
+	private Map<TypedStringValue, Object> innerObject;
 
 	@SuppressWarnings("unchecked")
 	MapProperty(BeanDefinitionRegistry registry, PropertyValue propertyValue, Map<?, ?> value) {
 		super(registry, propertyValue);
-		map = (Map<TypedStringValue, Object>) value;
+		innerObject = (Map<TypedStringValue, Object>) value;
 	}
 
 	/**
@@ -26,12 +31,12 @@ public class MapProperty extends Property {
 	 * @return 
 	 */
 	public String value(String key) {
-		Object objResult = map.get(new TypedStringValue(key));
+		Object objResult = innerObject.get(new TypedStringValue(key));
 		return checkTypedStringValue(objResult);
 	}
 
 	public void visitString(MapVisitor<String> mapVisitorString) {
-		Set<Entry<TypedStringValue, Object>> entrySet = map.entrySet();
+		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
 			String stringValue = checkTypedStringValue(entry.getValue());
 			mapVisitorString.visit(entry.getKey().getValue(), stringValue);
@@ -53,12 +58,12 @@ public class MapProperty extends Property {
 	 * @return 
 	 */
 	public Bean ref(String key) {
-		Object result = map.get(new TypedStringValue(key));
+		Object result = innerObject.get(new TypedStringValue(key));
 		return checkRuntimeBeanReference(result, this.registry);
 	}
 
 	public void visitBean(MapVisitor<Bean> mapVisitorBean) {
-		Set<Entry<TypedStringValue, Object>> entrySet = map.entrySet();
+		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
 			Bean bean = checkRuntimeBeanReference(entry.getValue(), this.registry);
 			mapVisitorBean.visit(entry.getKey().getValue(), bean);
