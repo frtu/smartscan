@@ -44,6 +44,14 @@
 			</map>
 		</property>
 	</bean>
+	<bean id="emailsBeanMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="beanOne" value-ref="anotherExampleBean" />
+				<entry key="beanTwo" value-ref="yetAnotherBean" />
+			</map>
+		</property>
+	</bean>
 	
 	<!-- creates a java.util.List instance with the supplied values -->
 	<util:list id="utilEmailsList" list-class="java.util.LinkedList">

@@ -30,13 +30,7 @@ public class Property extends AbtractBaseNavigator {
 	 * @return
 	 */
 	static Bean buildRef(BeanDefinitionRegistry registry, PropertyValue propertyValue) {
-		Object value = propertyValue.getValue();
-		if (value instanceof RuntimeBeanReference) {
-			RuntimeBeanReference runtimeBeanReference = (RuntimeBeanReference) value;
-			return Bean.build(registry, runtimeBeanReference.getBeanName());
-		}
-		throw new IllegalStateException(
-				"The <entry> doesn't contains an attribute ref={} but rather :" + value.getClass());
+		return checkRuntimeBeanReference(propertyValue.getValue(), registry);
 	}
 
 	/**
@@ -66,11 +60,26 @@ public class Property extends AbtractBaseNavigator {
 	 * @return
 	 */
 	public String value() {
-		Object value = propertyValue.getValue();
-		if (value instanceof TypedStringValue) {
-			TypedStringValue typedStringValue = (TypedStringValue) value;
+		return checkTypedStringValue(propertyValue.getValue());
+	}
+	
+	public Bean ref() {
+		return checkRuntimeBeanReference(propertyValue.getValue(), this.registry);
+	}
+	
+	protected static String checkTypedStringValue(Object object) {
+		if (object instanceof TypedStringValue) {
+			TypedStringValue typedStringValue = (TypedStringValue) object;
 			return typedStringValue.getValue();
 		}
-		throw new IllegalStateException("The <value> is not type of Integer but rather :" + value.getClass());
+		throw new IllegalStateException("The target is not type or attribute <value> but rather :" + object.getClass());
+	}
+	
+	protected static Bean checkRuntimeBeanReference(Object object, BeanDefinitionRegistry registry) {
+		if (object instanceof RuntimeBeanReference) {
+			RuntimeBeanReference runtimeBeanReference = (RuntimeBeanReference) object;
+			return Bean.build(registry, runtimeBeanReference.getBeanName());
+		}
+		throw new IllegalStateException("The target is not type or attribute <ref> but rather :" + object.getClass());
 	}
 }
