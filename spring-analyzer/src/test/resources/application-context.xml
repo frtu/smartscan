@@ -1,23 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	   		http://www.springframework.org/schema/beans/spring-beans.xsd
-	   		http://www.springframework.org/schema/context
-	   		http://www.springframework.org/schema/context/spring-context.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"> <!-- bean definitions here -->
+
+	<!-- bean definitions here -->
+	<bean id="noClassBean" />
+	<bean id="anotherExampleBean" class="examples.AnotherBean" />
+	<bean id="yetAnotherBean" class="examples.YetAnotherBean" />
 
 	<bean id="exampleBean" class="examples.ExampleBean">
 		<property name="beanOne">
 			<ref bean="anotherExampleBean" />
 		</property>
-		<property name="beanTwo">
-			<ref bean="yetAnotherBean" />
-		</property>
+		<property name="beanTwo" ref="yetAnotherBean" />
 		<property name="integerProperty">
 			<value>1</value>
 		</property>
+		<property name="integerProperty2" value="1" />
 	</bean>
 
-	<bean id="noClassBean"/>
-	<bean id="anotherExampleBean" class="examples.AnotherBean" />
-	<bean id="yetAnotherBean" class="examples.YetAnotherBean" />
+
+	<!-- creates a java.util.List instance with values loaded from the supplied 'sourceList' -->
+	<bean id="emailsList" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<value>pechorin@hero.org</value>
+				<value>raskolnikov@slums.org</value>
+				<value>stavrogin@gov.org</value>
+				<value>porfiry@gov.org</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- creates a java.util.Map instance with values loaded from the supplied 'sourceMap' -->
+	<bean id="emailsMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="pechorin" value="pechorin@hero.org" />
+				<entry key="raskolnikov" value="raskolnikov@slums.org" />
+				<entry key="stavrogin" value="stavrogin@gov.org" />
+				<entry key="porfiry" value="porfiry@gov.org" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- creates a java.util.List instance with the supplied values -->
+	<util:list id="utilEmailsList" list-class="java.util.LinkedList">
+		<value>jackshaftoe@vagabond.org</value>
+		<value>eliza@thinkingmanscrumpet.org</value>
+		<value>vanhoek@pirate.org</value>
+		<value>d'Arcachon@nemesis.org</value>
+	</util:list>
+	<!-- creates a java.util.Map instance with the supplied key-value pairs -->
+	<util:map id="utilEmailsMap">
+		<entry key="pechorin" value="pechorin@hero.org" />
+		<entry key="raskolnikov" value="raskolnikov@slums.org" />
+		<entry key="stavrogin" value="stavrogin@gov.org" />
+		<entry key="porfiry" value="porfiry@gov.org" />
+	</util:map>
 </beans>

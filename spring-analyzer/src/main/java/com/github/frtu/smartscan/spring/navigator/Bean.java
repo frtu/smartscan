@@ -52,4 +52,9 @@ public class Bean extends AbtractBaseNavigator {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
 		return Property.buildRef(this.registry, propertyValue);
 	}
+
+	public MapProperty mapProperty(String propertyName) {
+		PropertyValue propertyValue = getPropertyValue(propertyName);
+		return Property.buildMap(this.registry, propertyValue);
+	}
 }
