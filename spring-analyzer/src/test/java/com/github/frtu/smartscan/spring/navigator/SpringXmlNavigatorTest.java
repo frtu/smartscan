@@ -41,6 +41,18 @@ public class SpringXmlNavigatorTest {
 	}
 
 	@Test
+	public void testListString() {
+		Bean bean = springXmlNavigator.bean("emailsList");
+		ListProperty listProperty = bean.listProperty("sourceList");
+		assertNotNull(listProperty);
+
+		assertEquals("pechorin@hero.org", listProperty.value(0));
+		assertEquals("raskolnikov@slums.org", listProperty.value(1));
+		assertEquals("stavrogin@gov.org", listProperty.value(2));
+		assertEquals("porfiry@gov.org", listProperty.value(3));
+	}
+
+	@Test
 	public void testMapString() {
 		Bean bean = springXmlNavigator.bean("emailsMap");
 		MapProperty mapProperty = bean.mapProperty("sourceMap");

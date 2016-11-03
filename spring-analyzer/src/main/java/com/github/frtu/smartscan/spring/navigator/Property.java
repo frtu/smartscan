@@ -1,6 +1,8 @@
 package com.github.frtu.smartscan.spring.navigator;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
@@ -31,6 +33,14 @@ public class Property extends AbtractBaseNavigator {
 	 */
 	static Bean buildRef(BeanDefinitionRegistry registry, PropertyValue propertyValue) {
 		return checkRuntimeBeanReference(propertyValue.getValue(), registry);
+	}
+
+	static ListProperty buildList(BeanDefinitionRegistry registry, PropertyValue propertyValue) {
+		Object value = propertyValue.getValue();
+		if (List.class.isAssignableFrom(value.getClass())) {
+			return new ListProperty(registry, propertyValue, (List<?>) value);
+		}
+		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
 	}
 
 	/**
