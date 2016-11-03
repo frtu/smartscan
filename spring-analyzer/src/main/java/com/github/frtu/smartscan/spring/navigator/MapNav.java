@@ -24,54 +24,33 @@ public class MapNav extends AbtractBaseNavigator {
 
 	/**
 	 * Call this method if 
-	 * <map><entry key="key" value="value"/></map>
+	 * <map><entry key="key">
 	 * 
 	 * @param key
 	 * @return 
 	 */
-	public String value(String key) {
-		Object objResult = innerObject.get(new TypedStringValue(key));
-		return buildString(objResult);
+	public IntermediateNav entry(String entryName) {
+		Object result = innerObject.get(new TypedStringValue(entryName));
+		return new EntryNav(this.registry, result);
 	}
 
-	public void visitString(MapVisitor<String> mapVisitorString) {
+	public void visit(MapVisitor<EntryNav> mapVisitorString) {
 		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			String stringValue = buildString(entry.getValue());
-			mapVisitorString.visit(entry.getKey().getValue(), stringValue);
+			EntryNav entryNav = new EntryNav(this.registry, entry.getValue());
+			mapVisitorString.visit(entry.getKey().getValue(), entryNav);
 		}
 	}
 	
 	public HashMap<String, String> toMapString() {
 		HashMap<String, String> result = new HashMap<>();
-		visitString((key, value) -> result.put(key, value));
+		visit((key, entry) -> result.put(key, entry.value()));
 		return result;
-	}
-	
-
-	/**
-	 * Call this method if 
-	 * <map><entry key="key" value-ref="reference"/></map>
-	 * 
-	 * @param key
-	 * @return 
-	 */
-	public BeanNav ref(String key) {
-		Object result = innerObject.get(new TypedStringValue(key));
-		return buildBean(this.registry, result);
-	}
-
-	public void visitBean(MapVisitor<BeanNav> mapVisitorBean) {
-		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
-		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			BeanNav bean = buildBean(this.registry, entry.getValue());
-			mapVisitorBean.visit(entry.getKey().getValue(), bean);
-		}
 	}
 
 	public HashMap<String, BeanNav> toMapBean() {
 		HashMap<String, BeanNav> result = new HashMap<>();
-		visitBean((key, value) -> result.put(key, value));
+		visit((key, entry) -> result.put(key, entry.ref()));
 		return result;
 	}
 }
