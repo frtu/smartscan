@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
@@ -14,12 +13,12 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class MapProperty extends Property {
+public class MapProperty extends AbtractBaseNavigator {
 	private Map<TypedStringValue, Object> innerObject;
 
 	@SuppressWarnings("unchecked")
-	MapProperty(BeanDefinitionRegistry registry, PropertyValue propertyValue, Map<?, ?> value) {
-		super(registry, propertyValue);
+	MapProperty(BeanDefinitionRegistry registry, Map<?, ?> value) {
+		super(registry);
 		innerObject = (Map<TypedStringValue, Object>) value;
 	}
 
@@ -32,13 +31,13 @@ public class MapProperty extends Property {
 	 */
 	public String value(String key) {
 		Object objResult = innerObject.get(new TypedStringValue(key));
-		return checkTypedStringValue(objResult);
+		return buildString(objResult);
 	}
 
 	public void visitString(MapVisitor<String> mapVisitorString) {
 		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			String stringValue = checkTypedStringValue(entry.getValue());
+			String stringValue = buildString(entry.getValue());
 			mapVisitorString.visit(entry.getKey().getValue(), stringValue);
 		}
 	}
@@ -59,13 +58,13 @@ public class MapProperty extends Property {
 	 */
 	public Bean ref(String key) {
 		Object result = innerObject.get(new TypedStringValue(key));
-		return checkRuntimeBeanReference(result, this.registry);
+		return buildBean(this.registry, result);
 	}
 
 	public void visitBean(MapVisitor<Bean> mapVisitorBean) {
 		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			Bean bean = checkRuntimeBeanReference(entry.getValue(), this.registry);
+			Bean bean = buildBean(this.registry, entry.getValue());
 			mapVisitorBean.visit(entry.getKey().getValue(), bean);
 		}
 	}

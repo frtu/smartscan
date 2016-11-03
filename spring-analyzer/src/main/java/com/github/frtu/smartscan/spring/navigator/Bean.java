@@ -50,16 +50,21 @@ public class Bean extends AbtractBaseNavigator {
 	
 	public Bean beanProperty(String propertyName) {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
-		return Property.buildRef(this.registry, propertyValue);
+		return buildBean(this.registry, propertyValue.getValue());
 	}
 
 	public ListProperty listProperty(String propertyName) {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
-		return Property.buildList(this.registry, propertyValue);
+		return buildList(this.registry, propertyValue.getValue());
+	}
+
+	public SetProperty setProperty(String propertyName) {
+		PropertyValue propertyValue = getPropertyValue(propertyName);
+		return buildSet(this.registry, propertyValue.getValue());
 	}
 
 	public MapProperty mapProperty(String propertyName) {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
-		return Property.buildMap(this.registry, propertyValue);
+		return buildMap(this.registry, propertyValue.getValue());
 	}
 }
