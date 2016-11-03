@@ -15,10 +15,37 @@ public class SpringXmlNavigatorTest {
 	}
 
 	@Test
-	public void testExistingBean() {
-		Bean bean = springXmlNavigator.bean("exampleBean");
+	public void testOneLvlBean() {
+		Bean bean = springXmlNavigator.bean("anotherExampleBean");
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
+		assertFalse(bean.isClass((String)null));
+		assertFalse(bean.isClass((Class<?>)null));
+		assertTrue(bean.isClass("examples.AnotherBean"));
+	}
+	
+	@Test
+	public void testTwoLvlBean() {
+		Bean bean = springXmlNavigator.bean("exampleBean");
+		assertTrue(bean.isClass("examples.ExampleBean"));
+
+		Bean beanProperty = bean.beanProperty("beanOne");
+		assertNotNull(beanProperty);
+		assertTrue(beanProperty.isClass("examples.AnotherBean"));
+
+		Property property = bean.property("integerProperty");
+		assertNotNull(property);
+		assertEquals("1", property.value());
+	}
+
+	@Test
+	public void testEmptyBean() {
+		Bean bean = springXmlNavigator.bean("noClassBean");
+		assertNotNull(bean);
+		assertNotNull(bean.getBeanDefinition());
+		assertTrue(bean.isClass((String)null));
+		assertTrue(bean.isClass((Class<?>)null));
+		assertFalse(bean.isClass("examples.AnotherBean"));
 	}
 
 	@Test(expected=NoSuchBeanDefinitionException.class)

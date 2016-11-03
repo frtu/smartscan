@@ -30,6 +30,6 @@ public class SpringXmlNavigator extends AbtractBaseNavigator {
 	}
 
 	public Bean bean(String beanName) {
-		return new Bean(this.registry, beanName);
+		return Bean.build(this.registry, beanName);
 	}
 }

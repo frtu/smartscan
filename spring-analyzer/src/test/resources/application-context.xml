@@ -17,6 +17,7 @@
 		</property>
 	</bean>
 
+	<bean id="noClassBean"/>
 	<bean id="anotherExampleBean" class="examples.AnotherBean" />
 	<bean id="yetAnotherBean" class="examples.YetAnotherBean" />
 </beans>
