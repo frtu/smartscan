@@ -29,31 +29,31 @@ public abstract class AbtractBaseNavigator {
 		throw new IllegalStateException("The target is not type or attribute <value> but rather :" + object.getClass());
 	}
 	
-	protected static Bean buildBean(BeanDefinitionRegistry registry, Object object) {
+	protected static BeanNav buildBean(BeanDefinitionRegistry registry, Object object) {
 		if (object instanceof RuntimeBeanReference) {
 			RuntimeBeanReference runtimeBeanReference = (RuntimeBeanReference) object;
-			return Bean.build(registry, runtimeBeanReference.getBeanName());
+			return BeanNav.build(registry, runtimeBeanReference.getBeanName());
 		}
 		throw new IllegalStateException("The target is not type or attribute <ref> but rather :" + object.getClass());
 	}
 
-	protected static ListProperty buildList(BeanDefinitionRegistry registry, Object value) {
+	protected static ListNav buildList(BeanDefinitionRegistry registry, Object value) {
 		if (List.class.isAssignableFrom(value.getClass())) {
-			return new ListProperty(registry, (List<?>) value);
+			return new ListNav(registry, (List<?>) value);
 		}
 		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
 	}
 
-	protected static SetProperty buildSet(BeanDefinitionRegistry registry, Object value) {
+	protected static SetNav buildSet(BeanDefinitionRegistry registry, Object value) {
 		if (Set.class.isAssignableFrom(value.getClass())) {
-			return new SetProperty(registry, (Set<?>) value);
+			return new SetNav(registry, (Set<?>) value);
 		}
 		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
 	}
 	
-	protected static MapProperty buildMap(BeanDefinitionRegistry registry, Object value) {
+	protected static MapNav buildMap(BeanDefinitionRegistry registry, Object value) {
 		if (Map.class.isAssignableFrom(value.getClass())) {
-			return new MapProperty(registry, (Map<?, ?>) value);
+			return new MapNav(registry, (Map<?, ?>) value);
 		}
 		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
 	}

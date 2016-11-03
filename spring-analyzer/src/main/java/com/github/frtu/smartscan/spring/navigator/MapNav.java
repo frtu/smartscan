@@ -13,11 +13,11 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class MapProperty extends AbtractBaseNavigator {
+public class MapNav extends AbtractBaseNavigator {
 	private Map<TypedStringValue, Object> innerObject;
 
 	@SuppressWarnings("unchecked")
-	MapProperty(BeanDefinitionRegistry registry, Map<?, ?> value) {
+	MapNav(BeanDefinitionRegistry registry, Map<?, ?> value) {
 		super(registry);
 		innerObject = (Map<TypedStringValue, Object>) value;
 	}
@@ -56,21 +56,21 @@ public class MapProperty extends AbtractBaseNavigator {
 	 * @param key
 	 * @return 
 	 */
-	public Bean ref(String key) {
+	public BeanNav ref(String key) {
 		Object result = innerObject.get(new TypedStringValue(key));
 		return buildBean(this.registry, result);
 	}
 
-	public void visitBean(MapVisitor<Bean> mapVisitorBean) {
+	public void visitBean(MapVisitor<BeanNav> mapVisitorBean) {
 		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			Bean bean = buildBean(this.registry, entry.getValue());
+			BeanNav bean = buildBean(this.registry, entry.getValue());
 			mapVisitorBean.visit(entry.getKey().getValue(), bean);
 		}
 	}
 
-	public HashMap<String, Bean> toMapBean() {
-		HashMap<String, Bean> result = new HashMap<>();
+	public HashMap<String, BeanNav> toMapBean() {
+		HashMap<String, BeanNav> result = new HashMap<>();
 		visitBean((key, value) -> result.put(key, value));
 		return result;
 	}

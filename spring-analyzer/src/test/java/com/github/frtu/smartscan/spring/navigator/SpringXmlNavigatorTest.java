@@ -18,7 +18,7 @@ public class SpringXmlNavigatorTest {
 
 	@Test
 	public void testOneLvlBean() {
-		Bean bean = springXmlNavigator.bean("anotherExampleBean");
+		BeanNav bean = springXmlNavigator.bean("anotherExampleBean");
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
 		assertFalse(bean.isClass((String) null));
@@ -28,22 +28,22 @@ public class SpringXmlNavigatorTest {
 
 	@Test
 	public void testTwoLvlBean() {
-		Bean bean = springXmlNavigator.bean("exampleBean");
+		BeanNav bean = springXmlNavigator.bean("exampleBean");
 		assertTrue(bean.isClass("examples.ExampleBean"));
 
-		Bean beanProperty = bean.beanProperty("beanOne");
+		BeanNav beanProperty = bean.beanProperty("beanOne");
 		assertNotNull(beanProperty);
 		assertTrue(beanProperty.isClass("examples.AnotherBean"));
 
-		Property property = bean.property("integerProperty");
+		PropertyNav property = bean.property("integerProperty");
 		assertNotNull(property);
 		assertEquals("1", property.value());
 	}
 
 	@Test
 	public void testListString() {
-		Bean bean = springXmlNavigator.bean("emailsList");
-		ListProperty listProperty = bean.listProperty("sourceList");
+		BeanNav bean = springXmlNavigator.bean("emailsList");
+		ListNav listProperty = bean.listProperty("sourceList");
 		assertNotNull(listProperty);
 
 		assertEquals("pechorin@hero.org", listProperty.value(0));
@@ -54,8 +54,8 @@ public class SpringXmlNavigatorTest {
 
 	@Test
 	public void testMapString() {
-		Bean bean = springXmlNavigator.bean("emailsMap");
-		MapProperty mapProperty = bean.mapProperty("sourceMap");
+		BeanNav bean = springXmlNavigator.bean("emailsMap");
+		MapNav mapProperty = bean.mapProperty("sourceMap");
 		assertNotNull(mapProperty);
 
 		HashMap<String, String> mapString = mapProperty.toMapString();
@@ -65,11 +65,11 @@ public class SpringXmlNavigatorTest {
 
 	@Test
 	public void testMapBean() {
-		Bean bean = springXmlNavigator.bean("emailsBeanMap");
-		MapProperty mapProperty = bean.mapProperty("sourceMap");
+		BeanNav bean = springXmlNavigator.bean("emailsBeanMap");
+		MapNav mapProperty = bean.mapProperty("sourceMap");
 		assertNotNull(mapProperty);
 
-		HashMap<String, Bean> mapBean = mapProperty.toMapBean();
+		HashMap<String, BeanNav> mapBean = mapProperty.toMapBean();
 		assertEquals(2, mapBean.size());
 		assertTrue(mapBean.get("beanOne").isClass("examples.AnotherBean"));
 		assertTrue(mapBean.get("beanTwo").isClass("examples.YetAnotherBean"));
@@ -77,7 +77,7 @@ public class SpringXmlNavigatorTest {
 
 	@Test
 	public void testEmptyBean() {
-		Bean bean = springXmlNavigator.bean("noClassBean");
+		BeanNav bean = springXmlNavigator.bean("noClassBean");
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
 		assertTrue(bean.isClass((String) null));
@@ -87,7 +87,7 @@ public class SpringXmlNavigatorTest {
 
 	@Test(expected = NoSuchBeanDefinitionException.class)
 	public void testNonExistingBean() {
-		Bean bean = springXmlNavigator.bean("nonExistingBean");
+		BeanNav bean = springXmlNavigator.bean("nonExistingBean");
 		assertNull(bean);
 	}
 }

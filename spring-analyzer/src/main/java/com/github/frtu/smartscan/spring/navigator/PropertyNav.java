@@ -8,16 +8,16 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class Property extends AbtractBaseNavigator {
+public class PropertyNav extends AbtractBaseNavigator {
 	protected PropertyValue propertyValue;
 
-	Property(BeanDefinitionRegistry registry, PropertyValue propertyValue) {
+	PropertyNav(BeanDefinitionRegistry registry, PropertyValue propertyValue) {
 		super(registry);
 		this.propertyValue = propertyValue;
 	}
 
-	static Property build(BeanDefinitionRegistry registry, PropertyValue propertyValue) {
-		return new Property(registry, propertyValue);
+	static PropertyNav build(BeanDefinitionRegistry registry, PropertyValue propertyValue) {
+		return new PropertyNav(registry, propertyValue);
 	}
 
 	/**
@@ -34,11 +34,11 @@ public class Property extends AbtractBaseNavigator {
 	 * 
 	 * @return
 	 */
-	public Bean ref() {
+	public BeanNav ref() {
 		return buildBean(this.registry, propertyValue.getValue());
 	}
 
-	public ListProperty list() {
+	public ListNav list() {
 		return buildList(this.registry, propertyValue.getValue());
 	}
 }

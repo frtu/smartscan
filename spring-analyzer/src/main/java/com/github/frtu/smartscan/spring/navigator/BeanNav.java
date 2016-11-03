@@ -10,17 +10,17 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class Bean extends AbtractBaseNavigator {
+public class BeanNav extends AbtractBaseNavigator {
 	private BeanDefinition beanDefinition;
 
-	private Bean(BeanDefinitionRegistry registry, BeanDefinition beanDefinition) {
+	private BeanNav(BeanDefinitionRegistry registry, BeanDefinition beanDefinition) {
 		super(registry);
 		this.beanDefinition = beanDefinition;
 	}
 
-	static Bean build(BeanDefinitionRegistry registry, String beanName) throws NoSuchBeanDefinitionException {
+	static BeanNav build(BeanDefinitionRegistry registry, String beanName) throws NoSuchBeanDefinitionException {
 		BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
-		return new Bean(registry, beanDefinition);
+		return new BeanNav(registry, beanDefinition);
 	}
 
 	public boolean isClass(Class<?> clazz) {
@@ -43,27 +43,27 @@ public class Bean extends AbtractBaseNavigator {
 		return propertyValue;
 	}
 	
-	public Property property(String propertyName) {
+	public PropertyNav property(String propertyName) {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
-		return Property.build(this.registry, propertyValue);
+		return PropertyNav.build(this.registry, propertyValue);
 	}
 	
-	public Bean beanProperty(String propertyName) {
+	public BeanNav beanProperty(String propertyName) {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
 		return buildBean(this.registry, propertyValue.getValue());
 	}
 
-	public ListProperty listProperty(String propertyName) {
+	public ListNav listProperty(String propertyName) {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
 		return buildList(this.registry, propertyValue.getValue());
 	}
 
-	public SetProperty setProperty(String propertyName) {
+	public SetNav setProperty(String propertyName) {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
 		return buildSet(this.registry, propertyValue.getValue());
 	}
 
-	public MapProperty mapProperty(String propertyName) {
+	public MapNav mapProperty(String propertyName) {
 		PropertyValue propertyValue = getPropertyValue(propertyName);
 		return buildMap(this.registry, propertyValue.getValue());
 	}

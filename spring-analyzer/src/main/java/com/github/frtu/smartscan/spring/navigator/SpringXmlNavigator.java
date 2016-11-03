@@ -29,7 +29,7 @@ public class SpringXmlNavigator extends AbtractBaseNavigator {
 		xmlBeanDefinitionReader.loadBeanDefinitions(springXmlResource);
 	}
 
-	public Bean bean(String beanName) {
-		return Bean.build(this.registry, beanName);
+	public BeanNav bean(String beanName) {
+		return BeanNav.build(this.registry, beanName);
 	}
 }

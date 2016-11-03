@@ -9,10 +9,10 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class SetProperty extends AbtractBaseNavigator {
+public class SetNav extends AbtractBaseNavigator {
 	private Set<?> innerObject;
 
-	SetProperty(BeanDefinitionRegistry registry, Set<?> value) {
+	SetNav(BeanDefinitionRegistry registry, Set<?> value) {
 		super(registry);
 		this.innerObject = value;
 	}

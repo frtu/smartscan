@@ -9,10 +9,10 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class ListProperty extends AbtractBaseNavigator {
+public class ListNav extends AbtractBaseNavigator {
 	private List<?> innerObject;
 	
-	ListProperty(BeanDefinitionRegistry registry, List<?> value) {
+	ListNav(BeanDefinitionRegistry registry, List<?> value) {
 		super(registry);
 		this.innerObject = value;
 	}
