@@ -20,6 +20,10 @@ public class BeanNav extends AbtractBaseNavigator {
 
 	static BeanNav build(BeanDefinitionRegistry registry, String beanName) throws NoSuchBeanDefinitionException {
 		BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
+		return build(registry, beanDefinition);
+	}
+
+	static BeanNav build(BeanDefinitionRegistry registry, BeanDefinition beanDefinition) {
 		return new BeanNav(registry, beanDefinition);
 	}
 
@@ -38,7 +42,7 @@ public class BeanNav extends AbtractBaseNavigator {
 		return beanDefinition;
 	}
 
-	public IntermediateNav property(String propertyName) {
+	public PropertyNav property(String propertyName) {
 		PropertyValue propertyValue = beanDefinition.getPropertyValues().getPropertyValue(propertyName);
 		return new PropertyNav(this.registry, propertyValue);
 	}

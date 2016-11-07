@@ -1,8 +1,13 @@
 package com.github.frtu.smartscan.spring.navigator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,6 +58,54 @@ public class SpringXmlNavigatorTest {
 	}
 
 	@Test
+	public void testListStreamString() {
+		BeanNav bean = springXmlNavigator.bean("emailsList");
+		ListNav listProperty = bean.property("sourceList").list();
+		assertNotNull(listProperty);
+
+		String stringToFind = "pechorin@hero.org";
+		Stream<String> streamString = listProperty.streamString();
+		assertTrue("Cannot find in the Set the string:" + stringToFind,
+				streamString.anyMatch(str -> str.equals(stringToFind)));
+	}
+
+	@Test
+	public void testListStreamBean() {
+		BeanNav bean = springXmlNavigator.bean("emailsListBean");
+		ListNav listProperty = bean.property("sourceList").list();
+		assertNotNull(listProperty);
+
+		String className = "examples.AnotherBean";
+		Stream<BeanNav> streamBean = listProperty.streamBean();
+		assertTrue("Should have found in the list one class =" + className,
+				streamBean.anyMatch(beanNav -> beanNav.isClass(className)));
+	}
+
+	@Test
+	public void testSetStreamString() {
+		BeanNav bean = springXmlNavigator.bean("emailsSet");
+		SetNav setNav = bean.property("sourceSet").set();
+		assertNotNull(setNav);
+
+		String stringToFind = "pechorin@hero.org";
+		Stream<String> streamValue = setNav.streamString();
+		assertTrue("Cannot find in the Set the string:" + stringToFind,
+				streamValue.anyMatch(str -> str.equals(stringToFind)));
+	}
+
+	@Test
+	public void testSetStreamBean() {
+		BeanNav bean = springXmlNavigator.bean("emailsSetBean");
+		SetNav setNav = bean.property("sourceSet").set();
+		assertNotNull(setNav);
+
+		String className = "examples.AnotherBean";
+		Stream<BeanNav> streamBean = setNav.streamBean();
+		assertTrue("Should have found in the list one class =" + className,
+				streamBean.anyMatch(beanNav -> beanNav.isClass(className)));
+	}
+
+	@Test
 	public void testMapString() {
 		BeanNav bean = springXmlNavigator.bean("emailsMap");
 		MapNav mapProperty = bean.property("sourceMap").map();
@@ -73,6 +126,21 @@ public class SpringXmlNavigatorTest {
 		assertEquals(2, mapBean.size());
 		assertTrue(mapBean.get("beanOne").isClass("examples.AnotherBean"));
 		assertTrue(mapBean.get("beanTwo").isClass("examples.YetAnotherBean"));
+	}
+
+	@Test
+	public void testMapListOfBeans() {
+		// Test all kinds of embeded object Map that contains List of Bean of
+		// Property of ref
+		BeanNav bean = springXmlNavigator.bean("allComposite");
+		MapNav mapProperty = bean.property("sourceMap").map();
+		assertNotNull(mapProperty);
+
+		EntryNav entry = mapProperty.entry("beanOne");
+		BeanNav firstBeanOfList = entry.list().bean(0);
+		assertTrue(firstBeanOfList.isClass("examples.ExampleBean"));
+		BeanNav beanNav = firstBeanOfList.property("beanTwo").ref();
+		assertTrue(beanNav.isClass("examples.AnotherBean"));
 	}
 
 	@Test

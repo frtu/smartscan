@@ -29,7 +29,7 @@ public class MapNav extends AbtractBaseNavigator {
 	 * @param key
 	 * @return 
 	 */
-	public IntermediateNav entry(String entryName) {
+	public EntryNav entry(String entryName) {
 		Object result = innerObject.get(new TypedStringValue(entryName));
 		return new EntryNav(this.registry, result);
 	}

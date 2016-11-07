@@ -32,6 +32,16 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="emailsListBean" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean id="bean3" class="examples.AnotherBean" />
+				<bean id="exampleBean4" class="examples.ExampleBean">
+					<property name="beanTwo" ref="yetAnotherBean" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 	<!-- creates a java.util.Set instance with values loaded from the supplied 'sourceSet' -->
 	<bean id="emailsSet" class="org.springframework.beans.factory.config.SetFactoryBean">
 		<property name="sourceSet">
@@ -40,6 +50,16 @@
 				<value>raskolnikov@slums.org</value>
 				<value>stavrogin@gov.org</value>
 				<value>porfiry@gov.org</value>
+			</set>
+		</property>
+	</bean>
+	<bean id="emailsSetBean" class="org.springframework.beans.factory.config.SetFactoryBean">
+		<property name="sourceSet">
+			<set>
+				<bean id="bean3" class="examples.AnotherBean" />
+				<bean id="exampleBean4" class="examples.ExampleBean">
+					<property name="beanTwo" ref="yetAnotherBean" />
+				</bean>
 			</set>
 		</property>
 	</bean>
@@ -59,6 +79,21 @@
 			<map>
 				<entry key="beanOne" value-ref="anotherExampleBean" />
 				<entry key="beanTwo" value-ref="yetAnotherBean" />
+			</map>
+		</property>
+	</bean>
+	<bean id="allComposite" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="beanOne">
+					<list>
+						<bean id="exampleBean1" class="examples.ExampleBean">
+							<property name="beanTwo" ref="anotherExampleBean" />
+						</bean>
+						<bean id="bean2" class="examples.YetAnotherBean" />
+					</list>
+				</entry>
+				<entry key="beanTwo" value-ref="emailsListBean"/>
 			</map>
 		</property>
 	</bean>

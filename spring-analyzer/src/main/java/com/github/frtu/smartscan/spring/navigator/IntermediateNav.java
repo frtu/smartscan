@@ -3,7 +3,7 @@ package com.github.frtu.smartscan.spring.navigator;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 public abstract class IntermediateNav extends AbtractBaseNavigator {
-	public IntermediateNav(BeanDefinitionRegistry registry) {
+	protected IntermediateNav(BeanDefinitionRegistry registry) {
 		super(registry);
 	}
 
@@ -29,6 +29,10 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 
 	public ListNav list() {
 		return buildList(this.registry, innerObject());
+	}
+
+	public SetNav set() {
+		return buildSet(this.registry, innerObject());
 	}
 
 	public MapNav map() {

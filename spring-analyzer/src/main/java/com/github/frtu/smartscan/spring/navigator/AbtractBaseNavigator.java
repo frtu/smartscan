@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -33,8 +34,11 @@ public abstract class AbtractBaseNavigator {
 		if (object instanceof RuntimeBeanReference) {
 			RuntimeBeanReference runtimeBeanReference = (RuntimeBeanReference) object;
 			return BeanNav.build(registry, runtimeBeanReference.getBeanName());
-		}
-		throw new IllegalStateException("The target is not type or attribute <ref> but rather :" + object.getClass());
+		} else if (object instanceof BeanDefinitionHolder) {
+			BeanDefinitionHolder beanDefinitionHolder = (BeanDefinitionHolder) object;
+			return BeanNav.build(registry, beanDefinitionHolder.getBeanDefinition());
+		} 
+		throw new IllegalStateException("The target is not type or attribute <ref> or <bean> but rather :" + object.getClass());
 	}
 
 	protected static ListNav buildList(BeanDefinitionRegistry registry, Object value) {
