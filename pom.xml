@@ -10,7 +10,7 @@
 
 	<groupId>com.github.frtu.smartscan</groupId>
 	<artifactId>smartscan-pom</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<packaging>pom</packaging>
 
 	<name>Smart Scan toolbox</name>
@@ -30,9 +30,9 @@
 	</licenses>
 
 	<scm>
-		<url>git@github.com:frtu/smartscan.git</url>
 		<connection>scm:git:git@github.com:frtu/smartscan.git</connection>
 		<developerConnection>scm:git:git@github.com:frtu/smartscan.git</developerConnection>
+		<url>https://github.com/frtu/smartscan/tree/master</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -237,19 +237,6 @@
 					<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
 				</configuration>
 			</plugin>
-<!-- 			<plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-gpg-plugin</artifactId>
-	            <version>1.6</version>
-	            <executions>
-	                <execution>
-	                    <goals>
-	                       <goal>sign</goal>
-	                    </goals>
-	                </execution>
-	            </executions>
-	        </plugin>
- -->	        
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -266,7 +253,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
 	<profiles>
 		<profile>
 			<id>release-sign-artifacts</id>
@@ -281,7 +267,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.5</version>
+			            <version>1.6</version>
 						<configuration>
 							<passphrase>${gpg.passphrase}</passphrase>
 						</configuration>
