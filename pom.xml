@@ -10,7 +10,7 @@
 
 	<groupId>com.github.frtu.smartscan</groupId>
 	<artifactId>smartscan-pom</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<packaging>pom</packaging>
 
 	<name>Smart Scan toolbox</name>
@@ -200,15 +200,8 @@
 					</execution>
 				</executions>
 			</plugin>
- -->			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.1</version>
-				<configuration>
-					<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
-				</configuration>
-			</plugin>
-			<!-- Eclipse settings -->
+ -->
+ 			<!-- Eclipse settings -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -234,6 +227,29 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.10</version>
 			</plugin>
+
+			<!-- RELEASE -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+				</configuration>
+			</plugin>
+<!-- 			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-gpg-plugin</artifactId>
+	            <version>1.6</version>
+	            <executions>
+	                <execution>
+	                    <goals>
+	                       <goal>sign</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
+ -->	        
 		</plugins>
 		<pluginManagement>
 			<plugins>
