@@ -22,6 +22,10 @@ public abstract class AbtractBaseNavigator {
 		this.registry = registry;
 	}
 	
+	public BeanDefinitionRegistry getRegistry() {
+		return registry;
+	}
+
 	protected static String buildString(Object object) {
 		if (object instanceof TypedStringValue) {
 			TypedStringValue typedStringValue = (TypedStringValue) object;
