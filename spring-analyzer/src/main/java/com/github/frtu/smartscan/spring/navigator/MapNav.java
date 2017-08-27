@@ -9,7 +9,7 @@ import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 /**
- * Support <map> tag.
+ * Support &lt;map&gt; tag.
  * 
  * @author fred
  */
@@ -24,9 +24,9 @@ public class MapNav extends AbtractBaseNavigator {
 
 	/**
 	 * Call this method if 
-	 * <map><entry key="key">
+	 * &lt;map&gt;&lt;entry key="key"&gt;
 	 * 
-	 * @param key
+	 * @param entryName
 	 * @return 
 	 */
 	public EntryNav entry(String entryName) {

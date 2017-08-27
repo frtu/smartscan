@@ -6,7 +6,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 /**
- * Represent one tag <bean>
+ * Represent one tag &lt;bean&gt;
  * 
  * @author fred
  */

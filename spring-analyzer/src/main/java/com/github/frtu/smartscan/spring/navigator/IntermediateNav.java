@@ -10,7 +10,7 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 	protected abstract Object innerObject();
 
 	/**
-	 * Correspond to <property name="integerProperty2" value="1"/>
+	 * Correspond to &lt;property name="integerProperty2" value="1"/&gt;
 	 * 
 	 * @return
 	 */
@@ -19,7 +19,7 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 	}
 
 	/**
-	 * Correspond to <property name="beanTwo" ref="yetAnotherBean"/>
+	 * Correspond to &lt;property name="beanTwo" ref="yetAnotherBean"/&gt;
 	 * 
 	 * @return
 	 */

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 /**
- * Support <set> tag.
+ * Support &lt;set&gt; tag.
  * 
  * @author fred
  */

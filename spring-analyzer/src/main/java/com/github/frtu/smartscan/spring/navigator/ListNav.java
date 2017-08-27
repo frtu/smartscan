@@ -8,7 +8,7 @@ import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 /**
- * Support <list> tag.
+ * Support &lt;list&gt; tag.
  * 
  * @author fred
  */

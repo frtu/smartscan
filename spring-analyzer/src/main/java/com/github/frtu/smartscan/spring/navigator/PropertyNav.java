@@ -4,7 +4,7 @@ import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 /**
- * Represent one tag <property>
+ * Represent one tag &lt;property&gt;
  * 
  * @author fred
  */
