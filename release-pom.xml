@@ -51,6 +51,7 @@
     <logback.version>1.1.7</logback.version>
     <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
     <gpg.keyname>9D83BE2A</gpg.keyname>
+    <gpg.useagent>true</gpg.useagent>
     <gpg.executable>gpg2</gpg.executable>
     <gpg.passphrase>admin78</gpg.passphrase>
     <spring.version>4.3.0.RELEASE</spring.version>
