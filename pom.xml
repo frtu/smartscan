@@ -10,7 +10,7 @@
 
 	<groupId>com.github.frtu.smartscan</groupId>
 	<artifactId>smartscan-pom</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Smart Scan toolbox</name>
