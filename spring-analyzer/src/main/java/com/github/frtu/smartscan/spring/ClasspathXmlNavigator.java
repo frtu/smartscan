@@ -1,0 +1,49 @@
+package com.github.frtu.smartscan.spring;
+
+import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.github.frtu.smartscan.spring.navigator.AbtractBaseNavigator;
+
+/**
+ * Very similar usage like {@link ClassPathXmlApplicationContext}.
+ * 
+ * Call {{@link #afterPropertiesSet()}, before calling {{@link #getBean(String)}
+ * 
+ * @author fred
+ * @since 2.0
+ */
+public class ClasspathXmlNavigator extends AbtractBaseNavigator {
+	/**
+	 * Create a new ClasspathXmlNavigator for bean-style configuration.
+	 * 
+	 * @see #setConfigLocation
+	 * @see #setConfigLocations
+	 * @see #afterPropertiesSet()
+	 */
+	public ClasspathXmlNavigator() {
+		super(new SimpleBeanDefinitionRegistry());
+	}
+
+	/**
+	 * Create a new ClasspathXmlNavigator, loading the definitions
+	 * from the given XML file.
+	 * @param configLocation resource location
+	 */
+	public ClasspathXmlNavigator(String location) {
+		this();
+		setConfigLocation(location);
+		loadBeanDefinitions();
+	}
+
+	/**
+	 * Create a new ClasspathXmlNavigator, loading the definitions
+	 * from the given XML files.
+	 * @param configLocations array of resource locations
+	 */
+	public ClasspathXmlNavigator(String... configLocations) {
+		this();
+		setConfigLocations(configLocations);
+		loadBeanDefinitions();
+	}
+}

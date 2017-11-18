@@ -27,7 +27,7 @@ public class ListNav extends AbtractBaseNavigator {
 	
 	public BeanNav bean(int index) {
 		Object objResult = innerObject.get(index);
-		return buildBean(this.registry, objResult);
+		return buildBean(super.getRegistry(), objResult);
 	}
 	
 	public Stream<String> streamString() {
@@ -39,6 +39,6 @@ public class ListNav extends AbtractBaseNavigator {
 	public Stream<BeanNav> streamBean() {
 		@SuppressWarnings("unchecked")
 		List<BeanDefinitionHolder> beanList = (List<BeanDefinitionHolder>) innerObject;
-		return beanList.stream().map(m -> BeanNav.build(registry, m.getBeanDefinition()));
+		return beanList.stream().map(m -> BeanNav.build(super.getRegistry(), m.getBeanDefinition()));
 	}
 }

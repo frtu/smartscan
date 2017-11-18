@@ -29,6 +29,6 @@ public class SetNav extends AbtractBaseNavigator {
 	public Stream<BeanNav> streamBean() {
 		@SuppressWarnings("unchecked")
 		Set<BeanDefinitionHolder> beanSet = (Set<BeanDefinitionHolder>) innerObject;
-		return beanSet.stream().map(m -> BeanNav.build(registry, m.getBeanDefinition()));
+		return beanSet.stream().map(m -> BeanNav.build(super.getRegistry(), m.getBeanDefinition()));
 	}
 }

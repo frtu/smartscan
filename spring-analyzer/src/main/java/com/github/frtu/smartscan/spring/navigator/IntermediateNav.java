@@ -24,18 +24,18 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 	 * @return
 	 */
 	public BeanNav ref() {
-		return buildBean(this.registry, innerObject());
+		return buildBean(super.getRegistry(), innerObject());
 	}
 
 	public ListNav list() {
-		return buildList(this.registry, innerObject());
+		return buildList(super.getRegistry(), innerObject());
 	}
 
 	public SetNav set() {
-		return buildSet(this.registry, innerObject());
+		return buildSet(super.getRegistry(), innerObject());
 	}
 
 	public MapNav map() {
-		return buildMap(this.registry, innerObject());
+		return buildMap(super.getRegistry(), innerObject());
 	}
 }

@@ -31,13 +31,13 @@ public class MapNav extends AbtractBaseNavigator {
 	 */
 	public EntryNav entry(String entryName) {
 		Object result = innerObject.get(new TypedStringValue(entryName));
-		return new EntryNav(this.registry, result);
+		return new EntryNav(super.getRegistry(), result);
 	}
 
 	public void visit(MapVisitor<EntryNav> mapVisitorString) {
 		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			EntryNav entryNav = new EntryNav(this.registry, entry.getValue());
+			EntryNav entryNav = new EntryNav(super.getRegistry(), entry.getValue());
 			mapVisitorString.visit(entry.getKey().getValue(), entryNav);
 		}
 	}

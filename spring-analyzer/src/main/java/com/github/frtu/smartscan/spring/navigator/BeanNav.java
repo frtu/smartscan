@@ -44,6 +44,6 @@ public class BeanNav extends AbtractBaseNavigator {
 
 	public PropertyNav property(String propertyName) {
 		PropertyValue propertyValue = beanDefinition.getPropertyValues().getPropertyValue(propertyName);
-		return new PropertyNav(this.registry, propertyValue);
+		return new PropertyNav(super.getRegistry(), propertyValue);
 	}
 }

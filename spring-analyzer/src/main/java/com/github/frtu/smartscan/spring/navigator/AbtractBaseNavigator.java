@@ -14,16 +14,9 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public abstract class AbtractBaseNavigator {
-	protected BeanDefinitionRegistry registry;
-
-	AbtractBaseNavigator(BeanDefinitionRegistry registry) {
-		super();
-		this.registry = registry;
-	}
-	
-	public BeanDefinitionRegistry getRegistry() {
-		return registry;
+public abstract class AbtractBaseNavigator extends AbstractSpringRegistryNavigator {
+	public AbtractBaseNavigator(BeanDefinitionRegistry registry) {
+		super(registry);
 	}
 
 	protected static String buildString(Object object) {
@@ -33,7 +26,7 @@ public abstract class AbtractBaseNavigator {
 		}
 		throw new IllegalStateException("The target is not type or attribute <value> but rather :" + object.getClass());
 	}
-	
+
 	protected static BeanNav buildBean(BeanDefinitionRegistry registry, Object object) {
 		if (object instanceof RuntimeBeanReference) {
 			RuntimeBeanReference runtimeBeanReference = (RuntimeBeanReference) object;
@@ -41,8 +34,9 @@ public abstract class AbtractBaseNavigator {
 		} else if (object instanceof BeanDefinitionHolder) {
 			BeanDefinitionHolder beanDefinitionHolder = (BeanDefinitionHolder) object;
 			return BeanNav.build(registry, beanDefinitionHolder.getBeanDefinition());
-		} 
-		throw new IllegalStateException("The target is not type or attribute <ref> or <bean> but rather :" + object.getClass());
+		}
+		throw new IllegalStateException(
+		        "The target is not type or attribute <ref> or <bean> but rather :" + object.getClass());
 	}
 
 	protected static ListNav buildList(BeanDefinitionRegistry registry, Object value) {
@@ -58,7 +52,7 @@ public abstract class AbtractBaseNavigator {
 		}
 		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
 	}
-	
+
 	protected static MapNav buildMap(BeanDefinitionRegistry registry, Object value) {
 		if (Map.class.isAssignableFrom(value.getClass())) {
 			return new MapNav(registry, (Map<?, ?>) value);

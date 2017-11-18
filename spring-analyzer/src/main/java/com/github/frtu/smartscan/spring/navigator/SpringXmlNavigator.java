@@ -6,12 +6,16 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 
+import com.github.frtu.smartscan.spring.ClasspathXmlNavigator;
+
 /**
  * Main class to deal with Spring XML Application Config file.
  * 
  * @author fred
+ * @deprecated since 2.0, use {@link ClasspathXmlNavigator} rather !
  */
-public class SpringXmlNavigator extends AbtractBaseNavigator {
+@Deprecated
+public class SpringXmlNavigator extends AbstractSpringRegistryNavigator {
 	public SpringXmlNavigator() {
 		super(new SimpleBeanDefinitionRegistry());
 	}
@@ -25,11 +29,19 @@ public class SpringXmlNavigator extends AbtractBaseNavigator {
 	}
 
 	public void loadXmlResource(Resource springXmlResource) {
-		XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(registry);
+		XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(super.getRegistry());
 		xmlBeanDefinitionReader.loadBeanDefinitions(springXmlResource);
 	}
 
+	/**
+	 * Get the Bean using the parameter beanName.
+	 * 
+	 * @param beanName
+	 * @return
+	 * @deprecated use {@link #getBean(String)} instead
+	 */
+	@Deprecated
 	public BeanNav bean(String beanName) {
-		return BeanNav.build(this.registry, beanName);
+		return getBean(beanName);
 	}
 }
