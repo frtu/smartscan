@@ -22,11 +22,11 @@ import com.github.frtu.smartscan.spring.navigator.MapNav;
 import com.github.frtu.smartscan.spring.navigator.SetNav;
 
 public class ClasspathXmlNavigatorTest {
-	private static ClasspathXmlNavigator springXmlNavigator;
+	private static ClasspathXmlNavigator classpathXmlNavigator;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		springXmlNavigator = new ClasspathXmlNavigator("file:src/test/resources/application-context-partA.xml",
+		classpathXmlNavigator = new ClasspathXmlNavigator("file:src/test/resources/application-context-partA.xml",
 		        "file:src/test/resources/application-context-partB.xml");
 	}
 
@@ -37,7 +37,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testOneLvlBean() {
-		BeanNav bean = springXmlNavigator.getBean("anotherExampleBean");
+		BeanNav bean = classpathXmlNavigator.getBean("anotherExampleBean");
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
 		assertFalse(bean.isClass((String) null));
@@ -47,7 +47,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testTwoLvlBean() {
-		BeanNav bean = springXmlNavigator.getBean("exampleBean");
+		BeanNav bean = classpathXmlNavigator.getBean("exampleBean");
 		assertTrue(bean.isClass("examples.ExampleBean"));
 
 		BeanNav beanProperty = bean.property("beanOne").ref();
@@ -61,7 +61,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testListString() {
-		BeanNav bean = springXmlNavigator.getBean("emailsList");
+		BeanNav bean = classpathXmlNavigator.getBean("emailsList");
 		ListNav listProperty = bean.property("sourceList").list();
 		assertNotNull(listProperty);
 
@@ -73,7 +73,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testListStreamString() {
-		BeanNav bean = springXmlNavigator.getBean("emailsList");
+		BeanNav bean = classpathXmlNavigator.getBean("emailsList");
 		ListNav listProperty = bean.property("sourceList").list();
 		assertNotNull(listProperty);
 
@@ -85,7 +85,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testListStreamBean() {
-		BeanNav bean = springXmlNavigator.getBean("emailsListBean");
+		BeanNav bean = classpathXmlNavigator.getBean("emailsListBean");
 		ListNav listProperty = bean.property("sourceList").list();
 		assertNotNull(listProperty);
 
@@ -97,7 +97,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testSetStreamString() {
-		BeanNav bean = springXmlNavigator.getBean("emailsSet");
+		BeanNav bean = classpathXmlNavigator.getBean("emailsSet");
 		SetNav setNav = bean.property("sourceSet").set();
 		assertNotNull(setNav);
 
@@ -109,7 +109,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testSetStreamBean() {
-		BeanNav bean = springXmlNavigator.getBean("emailsSetBean");
+		BeanNav bean = classpathXmlNavigator.getBean("emailsSetBean");
 		SetNav setNav = bean.property("sourceSet").set();
 		assertNotNull(setNav);
 
@@ -121,7 +121,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testMapString() {
-		BeanNav bean = springXmlNavigator.getBean("emailsMap");
+		BeanNav bean = classpathXmlNavigator.getBean("emailsMap");
 		MapNav mapProperty = bean.property("sourceMap").map();
 		assertNotNull(mapProperty);
 
@@ -132,7 +132,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testMapBean() {
-		BeanNav bean = springXmlNavigator.getBean("emailsBeanMap");
+		BeanNav bean = classpathXmlNavigator.getBean("emailsBeanMap");
 		MapNav mapProperty = bean.property("sourceMap").map();
 		assertNotNull(mapProperty);
 
@@ -146,7 +146,7 @@ public class ClasspathXmlNavigatorTest {
 	public void testMapListOfBeans() {
 		// Test all kinds of embeded object Map that contains List of Bean of
 		// Property of ref
-		BeanNav bean = springXmlNavigator.getBean("allComposite");
+		BeanNav bean = classpathXmlNavigator.getBean("allComposite");
 		MapNav mapProperty = bean.property("sourceMap").map();
 		assertNotNull(mapProperty);
 
@@ -159,7 +159,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test
 	public void testEmptyBean() {
-		BeanNav bean = springXmlNavigator.getBean("noClassBean");
+		BeanNav bean = classpathXmlNavigator.getBean("noClassBean");
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
 		assertTrue(bean.isClass((String) null));
@@ -169,7 +169,7 @@ public class ClasspathXmlNavigatorTest {
 
 	@Test(expected = NoSuchBeanDefinitionException.class)
 	public void testNonExistingBean() {
-		BeanNav bean = springXmlNavigator.getBean("nonExistingBean");
+		BeanNav bean = classpathXmlNavigator.getBean("nonExistingBean");
 		assertNull(bean);
 	}
 }
