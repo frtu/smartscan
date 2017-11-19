@@ -6,7 +6,7 @@ import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 /**
- * Object encapsulating {@link Entry}. Use method {@link #key()} to get the Key & {@link #value()} to get the String
+ * Object encapsulating {@link Entry}. Use method {@link #key()} to get the Key &amp; {@link #value()} to get the String
  * value or {@link #ref()}, {@link #listBeans()}, {@link #setBeans()}, {@link #mapBeans()} to continue navigation.
  * 
  * @author fred

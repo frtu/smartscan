@@ -30,9 +30,9 @@ public class ClasspathXmlNavigator extends AbtractBaseNavigator {
 	 * from the given XML file.
 	 * @param configLocation resource location
 	 */
-	public ClasspathXmlNavigator(String location) {
+	public ClasspathXmlNavigator(String configLocation) {
 		this();
-		setConfigLocation(location);
+		setConfigLocation(configLocation);
 		loadBeanDefinitions();
 	}
 

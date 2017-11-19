@@ -12,7 +12,7 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 	/**
 	 * Correspond to &lt;property name="integerProperty2" value="1"/&gt;
 	 * 
-	 * @return
+	 * @return String value contained in the tag
 	 */
 	public String value() {
 		return buildString(innerObject());
@@ -21,7 +21,7 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 	/**
 	 * Correspond to &lt;property name="beanTwo" ref="yetAnotherBean"/&gt;
 	 * 
-	 * @return
+	 * @return the BeanNav referred using ref
 	 */
 	public BeanNav ref() {
 		return buildBean(super.getRegistry(), innerObject());

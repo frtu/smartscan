@@ -29,7 +29,7 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	/**
 	 * Get a Stream of all the keys.
 	 * 
-	 * @return
+	 * @return a Stream of keys
 	 * @since 2.0
 	 */
 	public Stream<String> streamKeys() {
@@ -40,7 +40,7 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	/**
 	 * Get a Stream of all the elements {@link EntryNav} of this map.
 	 * 
-	 * @return
+	 * @return a Stream of EntryNav
 	 * @since 2.0
 	 */
 	public Stream<EntryNav> streamEntries() {
@@ -52,7 +52,7 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	 * Use regular {@link Consumer} to visit all {@link EntryNav} of a map closer to stream syntax
 	 * {@link Stream#forEach(Consumer)}.
 	 * 
-	 * @param action
+	 * @param action Action to take for each EntryNav of this map
 	 * @since 2.0
 	 */
 	public void forEachEntry(Consumer<EntryNav> action) {
@@ -66,8 +66,8 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	/**
 	 * Call this method if &lt;map&gt;&lt;entry key="key"&gt;
 	 * 
-	 * @param entryName
-	 * @return
+	 * @param entryName the entry name of this tag
+	 * @return EntryNav corresponding to this name
 	 */
 	public EntryNav entry(String entryName) {
 		if (entryName == null || !innerObject.containsKey(new TypedStringValue(entryName))) {
@@ -86,7 +86,7 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	/**
 	 * Deprecated, use {@link #forEachEntry(Consumer)} instead !
 	 * 
-	 * @param mapVisitorString
+	 * @param mapVisitorString Visitor class
 	 */
 	@Deprecated
 	public void visit(MapBeansVisitor<EntryNav> mapVisitorString) {
@@ -98,9 +98,9 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	}
 
 	/**
-	 * Convert inner spring map definition into Map<String, String> of a tuple (key, string_value).
+	 * Convert inner spring map definition into Map&lt;String, String&gt; of a tuple (key, string_value).
 	 * 
-	 * @return
+	 * @return a map of (key, string_value).
 	 */
 	public Map<String, String> toMapString() {
 		HashMap<String, String> result = new HashMap<>();
@@ -109,9 +109,9 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	}
 
 	/**
-	 * Convert inner spring map definition into Map<String, String> of a tuple (key, ref-value).
+	 * Convert inner spring map definition into Map&lt;String, String&gt; of a tuple (key, ref-value).
 	 * 
-	 * @return
+	 * @return a map of (key, ref-value)
 	 */
 	public Map<String, BeanNav> toMapBean() {
 		HashMap<String, BeanNav> result = new HashMap<>();

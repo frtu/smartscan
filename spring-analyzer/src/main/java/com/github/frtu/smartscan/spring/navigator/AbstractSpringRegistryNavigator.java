@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Base class for all Spring configurations location & initialization
+ * Base class for all Spring configurations location &amp; initialization
  * 
  * Call {{@link #afterPropertiesSet()}, before calling {{@link #getBean(String)}
  * 
@@ -50,8 +50,8 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 	/**
 	 * Get a Bean definition using his beanName.
 	 * 
-	 * @param beanName
-	 * @return
+	 * @param beanName a Spring bean name
+	 * @return an instance of BeanNav
 	 */
 	public BeanNav getBean(String beanName) {
 		return BeanNav.build(this.registry, beanName);
@@ -82,6 +82,8 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 	 * by commas, semicolons or whitespace.
 	 * <p>
 	 * If not set, the implementation may use a default as appropriate.
+	 * 
+	 * @param location resource location
 	 */
 	public void setConfigLocation(String location) {
 		setConfigLocations(StringUtils.tokenizeToStringArray(location, CONFIG_LOCATION_DELIMITERS));
@@ -93,6 +95,8 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 	 * Set the config locations for this application context.
 	 * <p>
 	 * If not set, the implementation may use a default as appropriate.
+	 * 
+	 * @param locations array of resource locations
 	 */
 	public void setConfigLocations(String... locations) {
 		if (locations != null) {
@@ -115,10 +119,6 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 	/**
 	 * Any number of these characters are considered delimiters between multiple context config paths in a single String
 	 * value.
-	 * 
-	 * @see org.springframework.context.support.AbstractXmlApplicationContext#setConfigLocation
-	 * @see org.springframework.web.context.ContextLoader#CONFIG_LOCATION_PARAM
-	 * @see org.springframework.web.servlet.FrameworkServlet#setContextConfigLocation
 	 */
 	String CONFIG_LOCATION_DELIMITERS = ",; \t\n";
 }

@@ -36,8 +36,8 @@ public class SpringXmlNavigator extends AbstractSpringRegistryNavigator {
 	/**
 	 * Get the Bean using the parameter beanName.
 	 * 
-	 * @param beanName
-	 * @return
+	 * @param beanName a Spring bean name
+	 * @return an instance of BeanNav
 	 * @deprecated use {@link #getBean(String)} instead
 	 */
 	@Deprecated

@@ -7,7 +7,7 @@ import java.util.function.Consumer;
  * 
  * @author fred
  *
- * @param <T>
+ * @param <T> the type of the value
  */
 @Deprecated
 public interface MapBeansVisitor<T> {
