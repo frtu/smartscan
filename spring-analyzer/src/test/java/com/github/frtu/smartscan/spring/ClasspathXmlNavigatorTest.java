@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import org.junit.BeforeClass;
@@ -166,12 +168,23 @@ public class ClasspathXmlNavigatorTest {
 	}
 
 	@Test
+	public void testMapConsumer() {
+		BeanNav bean = classpathXmlNavigator.getBean("emailsMap");
+		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
+		assertNotNull(mapProperty);
+		
+		final AtomicInteger count = new AtomicInteger();
+		mapProperty.forEachEntry(entryNav -> count.getAndIncrement());
+		assertEquals(4, count.get());
+	}
+
+	@Test
 	public void testMapString() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsMap");
 		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
 		assertNotNull(mapProperty);
 
-		HashMap<String, String> mapString = mapProperty.toMapString();
+		Map<String, String> mapString = mapProperty.toMapString();
 		assertEquals(4, mapString.size());
 		assertEquals("pechorin@hero.org", mapString.get("pechorin"));
 	}
@@ -182,7 +195,7 @@ public class ClasspathXmlNavigatorTest {
 		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
 		assertNotNull(mapProperty);
 
-		HashMap<String, BeanNav> mapBean = mapProperty.toMapBean();
+		Map<String, BeanNav> mapBean = mapProperty.toMapBean();
 		assertEquals(2, mapBean.size());
 		assertTrue(mapBean.get("beanOne").isClass("examples.AnotherBean"));
 		assertTrue(mapBean.get("beanTwo").isClass("examples.YetAnotherBean"));
@@ -210,23 +223,23 @@ public class ClasspathXmlNavigatorTest {
 		assertNotNull(mapProperty);
 
 		Stream<String> streamKeys = mapProperty.streamKeys();
-		
+
 		String stringToFind = "raskolnikov";
 		assertTrue("Cannot find in the Set the key :" + stringToFind,
-				streamKeys.anyMatch(str -> str.equals(stringToFind)));
+		        streamKeys.anyMatch(str -> str.equals(stringToFind)));
 	}
-	
+
 	@Test
-	public void testMapListOfBeansStreamValue() {
+	public void testMapListOfBeansStreamEntries() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsMap");
 		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
 		assertNotNull(mapProperty);
 
-		Stream<EntryNav> streamValues = mapProperty.streamValues();
-		
+		Stream<EntryNav> streamEntries = mapProperty.streamEntries();
+
 		String stringToFind = "stavrogin@gov.org";
 		assertTrue("Cannot find in the Set the key :" + stringToFind,
-				streamValues.anyMatch(entryNav -> entryNav.value().equals(stringToFind)));
+		        streamEntries.anyMatch(entryNav -> entryNav.value().equals(stringToFind)));
 	}
 
 	@Test
@@ -243,5 +256,19 @@ public class ClasspathXmlNavigatorTest {
 	public void testNonExistingBean() {
 		BeanNav bean = classpathXmlNavigator.getBean("nonExistingBean");
 		assertNull(bean);
+	}
+
+	@Test(expected = NoSuchBeanDefinitionException.class)
+	public void testMapEntryNameNull() {
+		BeanNav bean = classpathXmlNavigator.getBean("allComposite");
+		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
+		mapProperty.entry(null);
+	}
+
+	@Test(expected = NoSuchBeanDefinitionException.class)
+	public void testMapEntryNonExistent() {
+		BeanNav bean = classpathXmlNavigator.getBean("allComposite");
+		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
+		mapProperty.entry("nonExistentEntry");
 	}
 }

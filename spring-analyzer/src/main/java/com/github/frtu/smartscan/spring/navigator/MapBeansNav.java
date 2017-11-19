@@ -1,14 +1,14 @@
 package com.github.frtu.smartscan.spring.navigator;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Stream;
+import java.util.function.Consumer;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
-import org.springframework.beans.factory.config.BeanDefinitionHolder;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
@@ -27,44 +27,95 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	}
 
 	/**
-	 * Call this method if 
-	 * &lt;map&gt;&lt;entry key="key"&gt;
+	 * Get a Stream of all the keys.
 	 * 
-	 * @param entryName
-	 * @return 
+	 * @return
+	 * @since 2.0
 	 */
-	public EntryNav entry(String entryName) {
-		Object result = innerObject.get(new TypedStringValue(entryName));
-		return new EntryNav(super.getRegistry(), result);
-	}
-	
 	public Stream<String> streamKeys() {
 		Set<TypedStringValue> keySet = innerObject.keySet();
 		return keySet.stream().map(key -> key.getValue());
 	}
-	
-	public Stream<EntryNav> streamValues() {
-		Collection<Object> values = innerObject.values();
-		return values.stream().map(value -> new EntryNav(super.getRegistry(), value));
+
+	/**
+	 * Get a Stream of all the elements {@link EntryNav} of this map.
+	 * 
+	 * @return
+	 * @since 2.0
+	 */
+	public Stream<EntryNav> streamEntries() {
+		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
+		return entrySet.stream().map(entry -> new EntryNav(super.getRegistry(), entry));
 	}
-	
+
+	/**
+	 * Use regular {@link Consumer} to visit all {@link EntryNav} of a map closer to stream syntax
+	 * {@link Stream#forEach(Consumer)}.
+	 * 
+	 * @param action
+	 * @since 2.0
+	 */
+	public void forEachEntry(Consumer<EntryNav> action) {
+		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
+		for (Entry<TypedStringValue, Object> entry : entrySet) {
+			EntryNav entryNav = new EntryNav(super.getRegistry(), entry);
+			action.accept(entryNav);
+		}
+	}
+
+	/**
+	 * Call this method if &lt;map&gt;&lt;entry key="key"&gt;
+	 * 
+	 * @param entryName
+	 * @return
+	 */
+	public EntryNav entry(String entryName) {
+		if (entryName == null || !innerObject.containsKey(new TypedStringValue(entryName))) {
+			throw new NoSuchBeanDefinitionException("No bean named " + entryName);
+		}
+
+		Optional<Entry<TypedStringValue, Object>> findFirst = innerObject.entrySet().stream()
+		        .filter(entry -> entryName.equals(entry.getKey().getValue())).findFirst();
+
+		if (!findFirst.isPresent()) {
+			throw new NoSuchBeanDefinitionException("No bean named " + entryName);
+		}
+		return new EntryNav(super.getRegistry(), findFirst.get());
+	}
+
+	/**
+	 * Deprecated, use {@link #forEachEntry(Consumer)} instead !
+	 * 
+	 * @param mapVisitorString
+	 */
+	@Deprecated
 	public void visit(MapBeansVisitor<EntryNav> mapVisitorString) {
 		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			EntryNav entryNav = new EntryNav(super.getRegistry(), entry.getValue());
+			EntryNav entryNav = new EntryNav(super.getRegistry(), entry);
 			mapVisitorString.visit(entry.getKey().getValue(), entryNav);
 		}
 	}
-	
-	public HashMap<String, String> toMapString() {
+
+	/**
+	 * Convert inner spring map definition into Map<String, String> of a tuple (key, string_value).
+	 * 
+	 * @return
+	 */
+	public Map<String, String> toMapString() {
 		HashMap<String, String> result = new HashMap<>();
-		visit((key, entry) -> result.put(key, entry.value()));
+		forEachEntry(entryNav -> result.put(entryNav.key(), entryNav.value()));
 		return result;
 	}
 
-	public HashMap<String, BeanNav> toMapBean() {
+	/**
+	 * Convert inner spring map definition into Map<String, String> of a tuple (key, ref-value).
+	 * 
+	 * @return
+	 */
+	public Map<String, BeanNav> toMapBean() {
 		HashMap<String, BeanNav> result = new HashMap<>();
-		visit((key, entry) -> result.put(key, entry.ref()));
+		forEachEntry(entryNav -> result.put(entryNav.key(), entryNav.ref()));
 		return result;
 	}
 }
