@@ -39,23 +39,23 @@ public abstract class AbtractBaseNavigator extends AbstractSpringRegistryNavigat
 		        "The target is not type or attribute <ref> or <bean> but rather :" + object.getClass());
 	}
 
-	protected static ListNav buildList(BeanDefinitionRegistry registry, Object value) {
+	protected static ListBeansNav buildList(BeanDefinitionRegistry registry, Object value) {
 		if (List.class.isAssignableFrom(value.getClass())) {
-			return new ListNav(registry, (List<?>) value);
+			return new ListBeansNav(registry, (List<?>) value);
 		}
 		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
 	}
 
-	protected static SetNav buildSet(BeanDefinitionRegistry registry, Object value) {
+	protected static SetBeansNav buildSet(BeanDefinitionRegistry registry, Object value) {
 		if (Set.class.isAssignableFrom(value.getClass())) {
-			return new SetNav(registry, (Set<?>) value);
+			return new SetBeansNav(registry, (Set<?>) value);
 		}
 		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
 	}
 
-	protected static MapNav buildMap(BeanDefinitionRegistry registry, Object value) {
+	protected static MapBeansNav buildMap(BeanDefinitionRegistry registry, Object value) {
 		if (Map.class.isAssignableFrom(value.getClass())) {
-			return new MapNav(registry, (Map<?, ?>) value);
+			return new MapBeansNav(registry, (Map<?, ?>) value);
 		}
 		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
 	}

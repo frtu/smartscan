@@ -17,9 +17,9 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import com.github.frtu.smartscan.spring.navigator.BeanNav;
 import com.github.frtu.smartscan.spring.navigator.EntryNav;
 import com.github.frtu.smartscan.spring.navigator.IntermediateNav;
-import com.github.frtu.smartscan.spring.navigator.ListNav;
-import com.github.frtu.smartscan.spring.navigator.MapNav;
-import com.github.frtu.smartscan.spring.navigator.SetNav;
+import com.github.frtu.smartscan.spring.navigator.ListBeansNav;
+import com.github.frtu.smartscan.spring.navigator.MapBeansNav;
+import com.github.frtu.smartscan.spring.navigator.SetBeansNav;
 
 public class ClasspathXmlNavigatorTest {
 	private static ClasspathXmlNavigator classpathXmlNavigator;
@@ -108,7 +108,7 @@ public class ClasspathXmlNavigatorTest {
 	@Test
 	public void testListString() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsList");
-		ListNav listProperty = bean.property("sourceList").list();
+		ListBeansNav listProperty = bean.property("sourceList").listBeans();
 		assertNotNull(listProperty);
 
 		assertEquals("pechorin@hero.org", listProperty.value(0));
@@ -120,7 +120,7 @@ public class ClasspathXmlNavigatorTest {
 	@Test
 	public void testListStreamString() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsList");
-		ListNav listProperty = bean.property("sourceList").list();
+		ListBeansNav listProperty = bean.property("sourceList").listBeans();
 		assertNotNull(listProperty);
 
 		String stringToFind = "pechorin@hero.org";
@@ -132,7 +132,7 @@ public class ClasspathXmlNavigatorTest {
 	@Test
 	public void testListStreamBean() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsListBean");
-		ListNav listProperty = bean.property("sourceList").list();
+		ListBeansNav listProperty = bean.property("sourceList").listBeans();
 		assertNotNull(listProperty);
 
 		String className = "examples.AnotherBean";
@@ -144,7 +144,7 @@ public class ClasspathXmlNavigatorTest {
 	@Test
 	public void testSetStreamString() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsSet");
-		SetNav setNav = bean.property("sourceSet").set();
+		SetBeansNav setNav = bean.property("sourceSet").setBeans();
 		assertNotNull(setNav);
 
 		String stringToFind = "pechorin@hero.org";
@@ -156,7 +156,7 @@ public class ClasspathXmlNavigatorTest {
 	@Test
 	public void testSetStreamBean() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsSetBean");
-		SetNav setNav = bean.property("sourceSet").set();
+		SetBeansNav setNav = bean.property("sourceSet").setBeans();
 		assertNotNull(setNav);
 
 		String className = "examples.AnotherBean";
@@ -168,7 +168,7 @@ public class ClasspathXmlNavigatorTest {
 	@Test
 	public void testMapString() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsMap");
-		MapNav mapProperty = bean.property("sourceMap").map();
+		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
 		assertNotNull(mapProperty);
 
 		HashMap<String, String> mapString = mapProperty.toMapString();
@@ -179,7 +179,7 @@ public class ClasspathXmlNavigatorTest {
 	@Test
 	public void testMapBean() {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsBeanMap");
-		MapNav mapProperty = bean.property("sourceMap").map();
+		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
 		assertNotNull(mapProperty);
 
 		HashMap<String, BeanNav> mapBean = mapProperty.toMapBean();
@@ -193,14 +193,40 @@ public class ClasspathXmlNavigatorTest {
 		// Test all kinds of embeded object Map that contains List of Bean of
 		// Property of ref
 		BeanNav bean = classpathXmlNavigator.getBean("allComposite");
-		MapNav mapProperty = bean.property("sourceMap").map();
+		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
 		assertNotNull(mapProperty);
 
 		EntryNav entry = mapProperty.entry("beanOne");
-		BeanNav firstBeanOfList = entry.list().bean(0);
+		BeanNav firstBeanOfList = entry.listBeans().bean(0);
 		assertTrue(firstBeanOfList.isClass("examples.ExampleBean"));
 		BeanNav beanNav = firstBeanOfList.property("beanTwo").ref();
 		assertTrue(beanNav.isClass("examples.AnotherBean"));
+	}
+
+	@Test
+	public void testMapListOfBeansStreamKey() {
+		BeanNav bean = classpathXmlNavigator.getBean("emailsMap");
+		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
+		assertNotNull(mapProperty);
+
+		Stream<String> streamKeys = mapProperty.streamKeys();
+		
+		String stringToFind = "raskolnikov";
+		assertTrue("Cannot find in the Set the key :" + stringToFind,
+				streamKeys.anyMatch(str -> str.equals(stringToFind)));
+	}
+	
+	@Test
+	public void testMapListOfBeansStreamValue() {
+		BeanNav bean = classpathXmlNavigator.getBean("emailsMap");
+		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
+		assertNotNull(mapProperty);
+
+		Stream<EntryNav> streamValues = mapProperty.streamValues();
+		
+		String stringToFind = "stavrogin@gov.org";
+		assertTrue("Cannot find in the Set the key :" + stringToFind,
+				streamValues.anyMatch(entryNav -> entryNav.value().equals(stringToFind)));
 	}
 
 	@Test

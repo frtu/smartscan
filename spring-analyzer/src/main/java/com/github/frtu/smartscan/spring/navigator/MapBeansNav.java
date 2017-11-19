@@ -1,10 +1,14 @@
 package com.github.frtu.smartscan.spring.navigator;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 import java.util.Set;
 
+import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
@@ -13,11 +17,11 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class MapNav extends AbtractBaseNavigator {
+public class MapBeansNav extends AbtractBaseNavigator {
 	private Map<TypedStringValue, Object> innerObject;
 
 	@SuppressWarnings("unchecked")
-	MapNav(BeanDefinitionRegistry registry, Map<?, ?> value) {
+	MapBeansNav(BeanDefinitionRegistry registry, Map<?, ?> value) {
 		super(registry);
 		innerObject = (Map<TypedStringValue, Object>) value;
 	}
@@ -33,8 +37,18 @@ public class MapNav extends AbtractBaseNavigator {
 		Object result = innerObject.get(new TypedStringValue(entryName));
 		return new EntryNav(super.getRegistry(), result);
 	}
-
-	public void visit(MapVisitor<EntryNav> mapVisitorString) {
+	
+	public Stream<String> streamKeys() {
+		Set<TypedStringValue> keySet = innerObject.keySet();
+		return keySet.stream().map(key -> key.getValue());
+	}
+	
+	public Stream<EntryNav> streamValues() {
+		Collection<Object> values = innerObject.values();
+		return values.stream().map(value -> new EntryNav(super.getRegistry(), value));
+	}
+	
+	public void visit(MapBeansVisitor<EntryNav> mapVisitorString) {
 		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		for (Entry<TypedStringValue, Object> entry : entrySet) {
 			EntryNav entryNav = new EntryNav(super.getRegistry(), entry.getValue());

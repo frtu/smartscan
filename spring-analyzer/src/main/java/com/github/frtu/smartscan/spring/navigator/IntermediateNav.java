@@ -27,15 +27,15 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 		return buildBean(super.getRegistry(), innerObject());
 	}
 
-	public ListNav list() {
+	public ListBeansNav listBeans() {
 		return buildList(super.getRegistry(), innerObject());
 	}
 
-	public SetNav set() {
+	public SetBeansNav setBeans() {
 		return buildSet(super.getRegistry(), innerObject());
 	}
 
-	public MapNav map() {
+	public MapBeansNav mapBeans() {
 		return buildMap(super.getRegistry(), innerObject());
 	}
 }
