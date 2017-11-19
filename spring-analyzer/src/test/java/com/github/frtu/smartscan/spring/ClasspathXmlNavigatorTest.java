@@ -26,13 +26,59 @@ public class ClasspathXmlNavigatorTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		classpathXmlNavigator = new ClasspathXmlNavigator("file:src/test/resources/application-context-partA.xml",
-		        "file:src/test/resources/application-context-partB.xml");
+		classpathXmlNavigator = new ClasspathXmlNavigator("application-context-partB.xml",
+		        "subfolder/application-context-partA.xml");
 	}
 
 	@Test(expected = BeanDefinitionStoreException.class)
-	public void testNonExistingFile() {
-		new ClasspathXmlNavigator("file:src/test/resources/NON_EXISTING.xml");
+	public void testNonExistingPath() {
+		new ClasspathXmlNavigator("NON_EXISTING.xml");
+	}
+
+	@Test
+	public void testClasspathProtocol() {
+		ClasspathXmlNavigator xmlNavigator = new ClasspathXmlNavigator(
+		        "classpath:/subfolder/application-context-partA.xml");
+		BeanNav bean = xmlNavigator.getBean("anotherExampleBean");
+		assertNotNull(bean);
+	}
+
+	@Test
+	public void testClasspathSimpleWildcard() {
+		ClasspathXmlNavigator xmlNavigator = new ClasspathXmlNavigator("application-context-part*.xml");
+		// Found application-context-partB.xml
+		assertNotNull(xmlNavigator.getBean("exampleBean"));
+		// Not found subfolder/application-context-partA.xml
+		try {
+			xmlNavigator.getBean("anotherExampleBean");
+			assertTrue(false);
+		} catch (NoSuchBeanDefinitionException e) {
+			assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testClasspathSubfolderWildcard() {
+		ClasspathXmlNavigator xmlNavigator = new ClasspathXmlNavigator("**/application-context-partA.xml");
+		BeanNav bean = xmlNavigator.getBean("anotherExampleBean");
+		assertNotNull(bean);
+	}
+
+	@Test
+	public void testClasspathFullWildcard() {
+		ClasspathXmlNavigator xmlNavigator = new ClasspathXmlNavigator("**/application-context-part*.xml");
+		// Found application-context-partB.xml
+		assertNotNull(xmlNavigator.getBean("exampleBean"));
+		// Found subfolder/application-context-partA.xml
+		assertNotNull(xmlNavigator.getBean("anotherExampleBean"));
+	}
+
+	@Test
+	public void testFileProtocol() {
+		ClasspathXmlNavigator xmlNavigator = new ClasspathXmlNavigator(
+		        "file:src/test/resources/subfolder/application-context-partA.xml");
+		BeanNav bean = xmlNavigator.getBean("anotherExampleBean");
+		assertNotNull(bean);
 	}
 
 	@Test
