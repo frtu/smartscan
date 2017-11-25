@@ -8,17 +8,36 @@ import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 
 /**
  * Base class for all config navigation classes.
  * 
  * @author fred
  */
-public abstract class AbtractBaseNavigator extends AbstractSpringRegistryNavigator {
-	public AbtractBaseNavigator(BeanDefinitionRegistry registry) {
-		super(registry);
+public abstract class AbtractBaseNavigator {
+	private BeanDefinitionRegistry registry;
+
+	/**
+	 * Create a new RegistryNavigator for bean-style configuration.
+	 * 
+	 * @see #setConfigLocation
+	 * @see #setConfigLocations
+	 * @see #afterPropertiesSet()
+	 */
+	public AbtractBaseNavigator() {
+		this(new SimpleBeanDefinitionRegistry());
 	}
 
+	public AbtractBaseNavigator(BeanDefinitionRegistry registry) {
+		super();
+		this.registry = registry;
+	}
+
+	protected BeanDefinitionRegistry getRegistry() {
+		return registry;
+	}
+	
 	protected static String buildString(Object object) {
 		if (object instanceof TypedStringValue) {
 			TypedStringValue typedStringValue = (TypedStringValue) object;

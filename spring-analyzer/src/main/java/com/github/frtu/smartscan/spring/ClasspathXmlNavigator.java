@@ -3,7 +3,7 @@ package com.github.frtu.smartscan.spring;
 import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.github.frtu.smartscan.spring.navigator.AbtractBaseNavigator;
+import com.github.frtu.smartscan.spring.navigator.AbstractSpringRegistryNavigator;
 
 /**
  * Very similar usage like {@link ClassPathXmlApplicationContext}.
@@ -13,7 +13,7 @@ import com.github.frtu.smartscan.spring.navigator.AbtractBaseNavigator;
  * @author fred
  * @since 2.0
  */
-public class ClasspathXmlNavigator extends AbtractBaseNavigator {
+public class ClasspathXmlNavigator extends AbstractSpringRegistryNavigator {
 	/**
 	 * Create a new ClasspathXmlNavigator for bean-style configuration.
 	 * 

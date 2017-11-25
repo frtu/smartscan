@@ -1,5 +1,8 @@
 package com.github.frtu.smartscan.spring.navigator;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
@@ -39,11 +42,7 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 		this.registry = registry;
 	}
 
-	public String[] getConfigLocations() {
-		return configLocations;
-	}
-
-	public BeanDefinitionRegistry getRegistry() {
+	protected BeanDefinitionRegistry getRegistry() {
 		return registry;
 	}
 
@@ -66,7 +65,6 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 	 * Inspired from {@link AbstractXmlApplicationContext#loadBeanDefinitions(DefaultListableBeanFactory)}
 	 */
 	protected void loadBeanDefinitions() {
-		String[] configLocations = getConfigLocations();
 		if (configLocations != null) {
 			XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(getRegistry());
 			// Allow to use AntPathMatcher for location declaration
