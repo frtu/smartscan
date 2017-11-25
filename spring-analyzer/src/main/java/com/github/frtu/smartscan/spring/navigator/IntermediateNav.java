@@ -15,6 +15,9 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 	 * @return String value contained in the tag
 	 */
 	public String value() {
+		if (innerObject() == null) {
+			return null;
+		}
 		return buildString(innerObject());
 	}
 

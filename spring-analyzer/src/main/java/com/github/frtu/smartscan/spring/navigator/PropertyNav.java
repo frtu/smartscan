@@ -17,6 +17,9 @@ public class PropertyNav extends IntermediateNav {
 	}
 
 	protected Object innerObject() {
+		if (propertyValue == null) {
+			return null;
+		}
 		return propertyValue.getValue();
 	}
 }
