@@ -6,6 +6,20 @@
 
 	<!-- bean definitions here -->
 	<bean id="noClassBean" />
+	<bean class="examples.YetAnotherBean" />
 	<bean id="anotherExampleBean" class="examples.AnotherBean" />
 	<bean id="yetAnotherBean" class="examples.YetAnotherBean" />
+	
+	<bean id="yetAnotherBean1" name="1" class="examples.YetAnotherBean">
+		<property name="field" value="1"/>
+	</bean>
+	<bean id="yetAnotherBean2" class="examples.YetAnotherBean">
+		<property name="field" value="2"/>
+	</bean>
+	<bean id="yetAnotherBean3" class="examples.YetAnotherBean">
+		<property name="field" value="3"/>
+	</bean>
+	<bean id="yetAnotherBean4" class="examples.YetAnotherBean">
+		<property name="field" value="4"/>
+	</bean>
 </beans>

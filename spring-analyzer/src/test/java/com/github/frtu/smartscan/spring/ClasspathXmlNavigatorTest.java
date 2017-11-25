@@ -6,9 +6,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.BeforeClass;
@@ -161,10 +162,47 @@ public class ClasspathXmlNavigatorTest {
 		SetBeansNav setNav = bean.property("sourceSet").setBeans();
 		assertNotNull(setNav);
 
-		String className = "examples.AnotherBean";
+		String className = "examples.ExampleBean";
 		Stream<BeanNav> streamBean = setNav.streamBean();
 		assertTrue("Should have found in the list one class =" + className,
 		        streamBean.anyMatch(beanNav -> beanNav.isClass(className)));
+
+		// A stream cannot be reused
+		streamBean = setNav.streamBean();
+
+		// <bean id="exampleBean1" class="examples.ExampleBean">
+		// <property name="beanTwo" ref="yetAnotherBean1" />
+		// </bean>
+		// <bean id="exampleBean2" class="examples.ExampleBean">
+		// <property name="beanTwo" ref="yetAnotherBean2" />
+		// </bean>
+		// <bean id="exampleBean3" class="examples.ExampleBean">
+		// <property name="beanTwo" ref="yetAnotherBean3" />
+		// </bean>
+		// <bean id="exampleBean4" class="examples.ExampleBean">
+		// <property name="beanTwo" ref="yetAnotherBean4" />
+		// </bean>
+		//
+		// <bean id="yetAnotherBean1" class="examples.YetAnotherBean">
+		// <property name="field" value="1"/>
+		// </bean>
+		// <bean id="yetAnotherBean2" class="examples.YetAnotherBean">
+		// <property name="field" value="2"/>
+		// </bean>
+		// <bean id="yetAnotherBean3" class="examples.YetAnotherBean">
+		// <property name="field" value="3"/>
+		// </bean>
+		// <bean id="yetAnotherBean4" class="examples.YetAnotherBean">
+		// <property name="field" value="4"/>
+		// </bean>
+
+		List<String> collect = streamBean.filter(beanNav -> beanNav.isClass(className))
+		        .map(beanNav -> beanNav.property("beanTwo").ref().property("field").value())
+		        .collect(Collectors.toList());
+		assertEquals("1", collect.get(0));
+		assertEquals("2", collect.get(1));
+		assertEquals("3", collect.get(2));
+		assertEquals("4", collect.get(3));
 	}
 
 	@Test
@@ -172,7 +210,7 @@ public class ClasspathXmlNavigatorTest {
 		BeanNav bean = classpathXmlNavigator.getBean("emailsMap");
 		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
 		assertNotNull(mapProperty);
-		
+
 		final AtomicInteger count = new AtomicInteger();
 		mapProperty.forEachEntry(entryNav -> count.getAndIncrement());
 		assertEquals(4, count.get());
@@ -270,5 +308,22 @@ public class ClasspathXmlNavigatorTest {
 		BeanNav bean = classpathXmlNavigator.getBean("allComposite");
 		MapBeansNav mapProperty = bean.property("sourceMap").mapBeans();
 		mapProperty.entry("nonExistentEntry");
+	}
+
+	@Test
+	public void testStreamAllProperty() {
+		Stream<BeanNav> streamBean = classpathXmlNavigator.streamBean();
+		List<String> fields = streamBean.filter(beanNav -> beanNav.isClass("examples.YetAnotherBean"))
+		        .map(beanNav -> beanNav.property("field").value()).collect(Collectors.toList());
+		assertEquals(6, fields.size());
+	}
+
+	@Test
+	public void testStreamAllId() {
+		Stream<BeanNav> streamBean = classpathXmlNavigator.streamBean();
+		List<String> fields = streamBean.filter(beanNav -> beanNav.isClass("examples.YetAnotherBean"))
+		        .map(beanNav -> beanNav.id()).collect(Collectors.toList());
+		
+		assertEquals(6, fields.size());
 	}
 }

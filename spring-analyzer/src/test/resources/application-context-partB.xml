@@ -53,8 +53,17 @@
 		<property name="sourceSet">
 			<set>
 				<bean id="bean3" class="examples.AnotherBean" />
+				<bean id="exampleBean1" class="examples.ExampleBean">
+					<property name="beanTwo" ref="yetAnotherBean1" />
+				</bean>
+				<bean id="exampleBean2" class="examples.ExampleBean">
+					<property name="beanTwo" ref="yetAnotherBean2" />
+				</bean>
+				<bean id="exampleBean3" class="examples.ExampleBean">
+					<property name="beanTwo" ref="yetAnotherBean3" />
+				</bean>
 				<bean id="exampleBean4" class="examples.ExampleBean">
-					<property name="beanTwo" ref="yetAnotherBean" />
+					<property name="beanTwo" ref="yetAnotherBean4" />
 				</bean>
 			</set>
 		</property>

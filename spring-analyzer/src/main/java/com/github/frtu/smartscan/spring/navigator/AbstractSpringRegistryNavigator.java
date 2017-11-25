@@ -56,6 +56,11 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 		return BeanNav.build(this.registry, beanName);
 	}
 
+	public Stream<BeanNav> streamBean() {
+		Stream<String> streamBeanName = Arrays.asList(this.registry.getBeanDefinitionNames()).stream();
+		return streamBeanName.map(beanName -> BeanNav.build(this.registry, beanName));
+	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		loadBeanDefinitions();
