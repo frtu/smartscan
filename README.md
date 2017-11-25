@@ -9,7 +9,7 @@ A toolbox to scan config file and provide high level architecture information
 <dependency>
     <groupId>com.github.frtu.smartscan</groupId>
     <artifactId>spring-analyzer</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
 </dependency>
 ```
 To see the latest version, please refer to : 
@@ -45,7 +45,8 @@ Parse this file and **_navigate_** from bean to bean like :
 ```Java
 	@Test
 	public void testTwoLvlBean() {
-		ClasspathXmlNavigator classpathXmlNavigator = new ClasspathXmlNavigator("**/application-context.xml");
+		ClasspathXmlNavigator classpathXmlNavigator = 
+			new ClasspathXmlNavigator("**/application-context.xml");
 		
 		BeanNav bean = classpathXmlNavigator.getBean("exampleBean");
 		assertTrue(bean.isClass("examples.ExampleBean"));
@@ -117,12 +118,13 @@ Suppose that you have two application-context.xml.
 </beans>
 ```
 
-Parse this file and **_navigate_** using Stream like :
+Parse this file and **_navigate_** using Stream with filter() & map() to the edge of the Spring config node like :
 
 ```Java
 	@Test
 	public void testSetStreamBean() {
-		ClasspathXmlNavigator classpathXmlNavigator = new ClasspathXmlNavigator("application-context-partB.xml",
+		ClasspathXmlNavigator classpathXmlNavigator = 
+			new ClasspathXmlNavigator("application-context-partB.xml",
 		        "subfolder/application-context-partA.xml");
 		        
 		BeanNav bean = classpathXmlNavigator.getBean("emailsSetBean");
@@ -137,7 +139,8 @@ Parse this file and **_navigate_** using Stream like :
 		// A stream cannot be reused
 		streamBean = setNav.streamBean();
 
-		List<String> collect = streamBean.filter(beanNav -> beanNav.isClass(className))
+		List<String> collect = streamBean
+				.filter(beanNav -> beanNav.isClass(className))
 		        .map(beanNav -> beanNav.property("beanTwo").ref().property("field").value())
 		        .collect(Collectors.toList());
 		assertEquals("1", collect.get(0));
