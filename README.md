@@ -122,6 +122,9 @@ Parse this file and **_navigate_** using Stream like :
 ```Java
 	@Test
 	public void testSetStreamBean() {
+		ClasspathXmlNavigator classpathXmlNavigator = new ClasspathXmlNavigator("application-context-partB.xml",
+		        "subfolder/application-context-partA.xml");
+		        
 		BeanNav bean = classpathXmlNavigator.getBean("emailsSetBean");
 		SetBeansNav setNav = bean.property("sourceSet").setBeans();
 		assertNotNull(setNav);
