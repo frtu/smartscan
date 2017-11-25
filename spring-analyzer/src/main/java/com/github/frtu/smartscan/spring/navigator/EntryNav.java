@@ -21,10 +21,16 @@ public class EntryNav extends IntermediateNav {
 
 	@Override
 	protected Object innerObject() {
+		if (entry == null) {
+			return null;
+		}
 		return entry.getValue();
 	}
 
 	public String key() {
+		if (entry == null) {
+			return null;
+		}
 		return entry.getKey().getValue();
 	}
 }

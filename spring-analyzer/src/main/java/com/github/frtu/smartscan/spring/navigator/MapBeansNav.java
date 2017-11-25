@@ -33,6 +33,9 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	 * @since 2.0
 	 */
 	public Stream<String> streamKeys() {
+		if (this.innerObject == null) {
+			return Stream.empty();
+		}
 		Set<TypedStringValue> keySet = innerObject.keySet();
 		return keySet.stream().map(key -> key.getValue());
 	}
@@ -44,6 +47,9 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	 * @since 2.0
 	 */
 	public Stream<EntryNav> streamEntries() {
+		if (this.innerObject == null) {
+			return Stream.empty();
+		}
 		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
 		return entrySet.stream().map(entry -> new EntryNav(super.getRegistry(), entry));
 	}
@@ -56,10 +62,12 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	 * @since 2.0
 	 */
 	public void forEachEntry(Consumer<EntryNav> action) {
-		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
-		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			EntryNav entryNav = new EntryNav(super.getRegistry(), entry);
-			action.accept(entryNav);
+		if (this.innerObject != null) {
+			Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
+			for (Entry<TypedStringValue, Object> entry : entrySet) {
+				EntryNav entryNav = new EntryNav(super.getRegistry(), entry);
+				action.accept(entryNav);
+			}
 		}
 	}
 
@@ -70,10 +78,12 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	 * @return EntryNav corresponding to this name
 	 */
 	public EntryNav entry(String entryName) {
+		if (this.innerObject == null) {
+			return null;
+		}
 		if (entryName == null || !innerObject.containsKey(new TypedStringValue(entryName))) {
 			throw new NoSuchBeanDefinitionException("No bean named " + entryName);
 		}
-
 		Optional<Entry<TypedStringValue, Object>> findFirst = innerObject.entrySet().stream()
 		        .filter(entry -> entryName.equals(entry.getKey().getValue())).findFirst();
 
@@ -90,10 +100,12 @@ public class MapBeansNav extends AbtractBaseNavigator {
 	 */
 	@Deprecated
 	public void visit(MapBeansVisitor<EntryNav> mapVisitorString) {
-		Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
-		for (Entry<TypedStringValue, Object> entry : entrySet) {
-			EntryNav entryNav = new EntryNav(super.getRegistry(), entry);
-			mapVisitorString.visit(entry.getKey().getValue(), entryNav);
+		if (this.innerObject != null) {
+			Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
+			for (Entry<TypedStringValue, Object> entry : entrySet) {
+				EntryNav entryNav = new EntryNav(super.getRegistry(), entry);
+				mapVisitorString.visit(entry.getKey().getValue(), entryNav);
+			}
 		}
 	}
 

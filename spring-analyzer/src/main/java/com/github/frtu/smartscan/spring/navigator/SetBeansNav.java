@@ -21,12 +21,18 @@ public class SetBeansNav extends AbtractBaseNavigator {
 	}
 	
 	public Stream<String> streamString() {
+		if (this.innerObject == null) {
+			return Stream.empty();
+		}
 		@SuppressWarnings("unchecked")
 		Set<TypedStringValue> beanSet = (Set<TypedStringValue>) innerObject;
 		return beanSet.stream().map(s -> s.getValue());
 	}
 	
 	public Stream<BeanNav> streamBean() {
+		if (this.innerObject == null) {
+			return Stream.empty();
+		}
 		@SuppressWarnings("unchecked")
 		Set<BeanDefinitionHolder> beanSet = (Set<BeanDefinitionHolder>) innerObject;
 		return beanSet.stream().map(m -> BeanNav.build(super.getRegistry(), m.getBeanDefinition()));

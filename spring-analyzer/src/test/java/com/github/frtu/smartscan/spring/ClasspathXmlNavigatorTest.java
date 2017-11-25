@@ -22,6 +22,7 @@ import com.github.frtu.smartscan.spring.navigator.EntryNav;
 import com.github.frtu.smartscan.spring.navigator.IntermediateNav;
 import com.github.frtu.smartscan.spring.navigator.ListBeansNav;
 import com.github.frtu.smartscan.spring.navigator.MapBeansNav;
+import com.github.frtu.smartscan.spring.navigator.PropertyNav;
 import com.github.frtu.smartscan.spring.navigator.SetBeansNav;
 
 public class ClasspathXmlNavigatorTest {
@@ -92,6 +93,22 @@ public class ClasspathXmlNavigatorTest {
 		assertFalse(bean.isClass((String) null));
 		assertFalse(bean.isClass((Class<?>) null));
 		assertTrue(bean.isClass("examples.AnotherBean"));
+	}
+
+	@Test
+	public void testOneLvlBeanOnlyId() {
+		String beanName = "noClassBean";
+		BeanNav bean = classpathXmlNavigator.getBean(beanName);
+		assertNotNull(bean);
+		assertNotNull(bean.getBeanDefinition());
+		assertEquals(beanName, bean.id());
+		assertFalse(bean.isClass("AnyClass"));
+		assertTrue(bean.isClass((String) null));
+		assertTrue(bean.isClass((Class<?>) null));
+		
+		PropertyNav emptyProperty = bean.property("no-property");
+		assertNull(emptyProperty.value());
+		assertNull(emptyProperty.ref());
 	}
 
 	@Test

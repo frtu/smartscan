@@ -21,22 +21,34 @@ public class ListBeansNav extends AbtractBaseNavigator {
 	}
 	
 	public String value(int index) {
+		if (this.innerObject == null) {
+			return null;
+		}
 		Object objResult = innerObject.get(index);
 		return buildString(objResult);
 	}
 	
 	public BeanNav bean(int index) {
+		if (this.innerObject == null) {
+			return null;
+		}
 		Object objResult = innerObject.get(index);
 		return buildBean(super.getRegistry(), objResult);
 	}
 	
 	public Stream<String> streamString() {
+		if (this.innerObject == null) {
+			return Stream.empty();
+		}
 		@SuppressWarnings("unchecked")
 		List<TypedStringValue> beanList = (List<TypedStringValue>) innerObject;
 		return beanList.stream().map(s -> s.getValue());
 	}
 	
 	public Stream<BeanNav> streamBean() {
+		if (this.innerObject == null) {
+			return Stream.empty();
+		}
 		@SuppressWarnings("unchecked")
 		List<BeanDefinitionHolder> beanList = (List<BeanDefinitionHolder>) innerObject;
 		return beanList.stream().map(m -> BeanNav.build(super.getRegistry(), m.getBeanDefinition()));

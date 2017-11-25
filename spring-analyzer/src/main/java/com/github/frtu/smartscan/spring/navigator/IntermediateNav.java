@@ -7,6 +7,11 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 		super(registry);
 	}
 
+	/**
+	 * Return the encapsulated object. MAY RETURN NULL.
+	 * 
+	 * @return
+	 */
 	protected abstract Object innerObject();
 
 	/**
@@ -27,17 +32,35 @@ public abstract class IntermediateNav extends AbtractBaseNavigator {
 	 * @return the BeanNav referred using ref
 	 */
 	public BeanNav ref() {
+		if (innerObject() == null) {
+			return null;
+		}
 		return buildBean(super.getRegistry(), innerObject());
 	}
 
+	/**
+	 * Correspond to &lt;property name="beanTwo"&gt;&lt;list&gt;
+	 * 
+	 * @return the list of BeanNav referred using list tag
+	 */
 	public ListBeansNav listBeans() {
 		return buildList(super.getRegistry(), innerObject());
 	}
 
+	/**
+	 * Correspond to &lt;property name="beanTwo"&gt;&lt;set&gt;
+	 * 
+	 * @return the set of BeanNav referred using set tag
+	 */
 	public SetBeansNav setBeans() {
 		return buildSet(super.getRegistry(), innerObject());
 	}
 
+	/**
+	 * Correspond to &lt;property name="beanTwo"&gt;&lt;map&gt;
+	 * 
+	 * @return the map of BeanNav referred using map tag
+	 */
 	public MapBeansNav mapBeans() {
 		return buildMap(super.getRegistry(), innerObject());
 	}

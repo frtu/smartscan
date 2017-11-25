@@ -11,20 +11,13 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 
 /**
- * Base class for all config navigation classes.
+ * Base class for all XML config Navigation classes in this package.
  * 
  * @author fred
  */
 public abstract class AbtractBaseNavigator {
 	private BeanDefinitionRegistry registry;
 
-	/**
-	 * Create a new RegistryNavigator for bean-style configuration.
-	 * 
-	 * @see #setConfigLocation
-	 * @see #setConfigLocations
-	 * @see #afterPropertiesSet()
-	 */
 	public AbtractBaseNavigator() {
 		this(new SimpleBeanDefinitionRegistry());
 	}
@@ -37,7 +30,7 @@ public abstract class AbtractBaseNavigator {
 	protected BeanDefinitionRegistry getRegistry() {
 		return registry;
 	}
-	
+
 	protected static String buildString(Object object) {
 		if (object instanceof TypedStringValue) {
 			TypedStringValue typedStringValue = (TypedStringValue) object;
@@ -59,6 +52,10 @@ public abstract class AbtractBaseNavigator {
 	}
 
 	protected static ListBeansNav buildList(BeanDefinitionRegistry registry, Object value) {
+		if (value == null) {
+			// Friendly to stream APIs so that forEach doesn't have to test against null
+			return new ListBeansNav(registry, (List<?>) null);
+		}
 		if (List.class.isAssignableFrom(value.getClass())) {
 			return new ListBeansNav(registry, (List<?>) value);
 		}
@@ -66,6 +63,10 @@ public abstract class AbtractBaseNavigator {
 	}
 
 	protected static SetBeansNav buildSet(BeanDefinitionRegistry registry, Object value) {
+		if (value == null) {
+			// Friendly to stream APIs so that forEach doesn't have to test against null
+			return new SetBeansNav(registry, (Set<?>) null);
+		}
 		if (Set.class.isAssignableFrom(value.getClass())) {
 			return new SetBeansNav(registry, (Set<?>) value);
 		}
@@ -73,6 +74,10 @@ public abstract class AbtractBaseNavigator {
 	}
 
 	protected static MapBeansNav buildMap(BeanDefinitionRegistry registry, Object value) {
+		if (value == null) {
+			// Friendly to stream APIs so that forEach doesn't have to test against null
+			return new MapBeansNav(registry, (Map<?, ?>) null);
+		}
 		if (Map.class.isAssignableFrom(value.getClass())) {
 			return new MapBeansNav(registry, (Map<?, ?>) value);
 		}
