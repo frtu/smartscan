@@ -10,7 +10,7 @@
 
 	<groupId>com.github.frtu.smartscan</groupId>
 	<artifactId>smartscan-pom</artifactId>
-	<version>0.2.2-SNAPSHOT</version>
+	<version>0.2.2</version>
 	<packaging>pom</packaging>
 
 	<name>Smart Scan toolbox</name>
@@ -33,7 +33,7 @@
 		<connection>scm:git:git@github.com:frtu/smartscan.git</connection>
 		<developerConnection>scm:git:git@github.com:frtu/smartscan.git</developerConnection>
 		<url>https://github.com/frtu/smartscan/tree/master</url>
-		<tag>HEAD</tag>
+		<tag>v0.2.2</tag>
 	</scm>
 
 	<developers>
