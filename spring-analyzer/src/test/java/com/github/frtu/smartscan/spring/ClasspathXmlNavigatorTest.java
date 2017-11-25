@@ -123,6 +123,10 @@ public class ClasspathXmlNavigatorTest {
 		IntermediateNav property = bean.property("integerProperty");
 		assertNotNull(property);
 		assertEquals("1", property.value());
+
+		IntermediateNav integerProperty2 = bean.property("integerProperty2");
+		assertNotNull(integerProperty2);
+		assertEquals("1", integerProperty2.value());
 	}
 
 	@Test
