@@ -14,7 +14,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 public class EntryNav extends IntermediateNav {
 	private Entry<TypedStringValue, Object> entry;
 
-	public EntryNav(BeanDefinitionRegistry registry, Entry<TypedStringValue, Object> entry) {
+	protected EntryNav(BeanDefinitionRegistry registry, Entry<TypedStringValue, Object> entry) {
 		super(registry);
 		this.entry = entry;
 	}
@@ -27,7 +27,7 @@ public class EntryNav extends IntermediateNav {
 		return entry.getValue();
 	}
 
-	public String key() {
+	protected String key() {
 		if (entry == null) {
 			return null;
 		}

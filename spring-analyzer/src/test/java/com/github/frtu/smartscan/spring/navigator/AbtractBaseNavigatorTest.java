@@ -9,21 +9,33 @@ import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 public class AbtractBaseNavigatorTest {
 	private BeanDefinitionRegistry registry = new SimpleBeanDefinitionRegistry();
 
+	private class TestBaseNavigator extends AbstractBaseNavigator {
+		public TestBaseNavigator(BeanDefinitionRegistry registry) {
+			super(registry);
+		}
+	};
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructor() {
+		new TestBaseNavigator(null);
+	}
+
+
 	@Test
 	public void testBuildList() {
-		ListBeansNav emptyBuildList = AbtractBaseNavigator.buildList(registry, null);
+		ListBeansNav emptyBuildList = AbstractBaseNavigator.buildList(registry, null);
 		assertEquals(0, emptyBuildList.streamBean().count());
 	}
 
 	@Test
 	public void testBuildSet() {
-		SetBeansNav emptyBuildSet = AbtractBaseNavigator.buildSet(registry, null);
+		SetBeansNav emptyBuildSet = AbstractBaseNavigator.buildSet(registry, null);
 		assertEquals(0, emptyBuildSet.streamBean().count());
 	}
 
 	@Test
 	public void testBuildMap() {
-		MapBeansNav emptyBuildMap = AbtractBaseNavigator.buildMap(registry, null);
+		MapBeansNav emptyBuildMap = AbstractBaseNavigator.buildMap(registry, null);
 		assertEquals(0, emptyBuildMap.streamEntries().count());
 	}
 

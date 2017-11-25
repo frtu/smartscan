@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -90,8 +91,6 @@ public class ClasspathXmlNavigatorTest {
 		BeanNav bean = classpathXmlNavigator.getBean("anotherExampleBean");
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
-		assertFalse(bean.isClass((String) null));
-		assertFalse(bean.isClass((Class<?>) null));
 		assertTrue(bean.isClass("examples.AnotherBean"));
 	}
 
@@ -101,10 +100,8 @@ public class ClasspathXmlNavigatorTest {
 		BeanNav bean = classpathXmlNavigator.getBean(beanName);
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
-		assertEquals(beanName, bean.id());
+		assertEquals(beanName, bean.id().get());
 		assertFalse(bean.isClass("AnyClass"));
-		assertTrue(bean.isClass((String) null));
-		assertTrue(bean.isClass((Class<?>) null));
 		
 		PropertyNav emptyProperty = bean.property("no-property");
 		assertNull(emptyProperty.value());
@@ -306,8 +303,6 @@ public class ClasspathXmlNavigatorTest {
 		BeanNav bean = classpathXmlNavigator.getBean("noClassBean");
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
-		assertTrue(bean.isClass((String) null));
-		assertTrue(bean.isClass((Class<?>) null));
 		assertFalse(bean.isClass("examples.AnotherBean"));
 	}
 
@@ -342,7 +337,7 @@ public class ClasspathXmlNavigatorTest {
 	@Test
 	public void testStreamAllId() {
 		Stream<BeanNav> streamBean = classpathXmlNavigator.streamBean();
-		List<String> fields = streamBean.filter(beanNav -> beanNav.isClass("examples.YetAnotherBean"))
+		List<Optional<String>> fields = streamBean.filter(beanNav -> beanNav.isClass("examples.YetAnotherBean"))
 		        .map(beanNav -> beanNav.id()).collect(Collectors.toList());
 		
 		assertEquals(6, fields.size());

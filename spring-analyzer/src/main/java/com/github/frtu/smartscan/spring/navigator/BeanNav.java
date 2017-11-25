@@ -1,20 +1,23 @@
 package com.github.frtu.smartscan.spring.navigator;
 
+import java.util.Optional;
+
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.util.Assert;
 
 /**
  * Represent one tag &lt;bean&gt;
  * 
  * @author fred
  */
-public class BeanNav extends AbtractBaseNavigator {
-	private String id;
+public class BeanNav extends AbstractBaseNavigator {
+	private Optional<String> id;
 	private BeanDefinition beanDefinition;
 	
-	private BeanNav(BeanDefinitionRegistry registry, String id, BeanDefinition beanDefinition) {
+	private BeanNav(BeanDefinitionRegistry registry, Optional<String> id, BeanDefinition beanDefinition) {
 		super(registry);
 		this.id = id;
 		this.beanDefinition = beanDefinition;
@@ -22,14 +25,15 @@ public class BeanNav extends AbtractBaseNavigator {
 
 	static BeanNav build(BeanDefinitionRegistry registry, String beanName) throws NoSuchBeanDefinitionException {
 		BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
-		return build(registry, beanName, beanDefinition);
+		Assert.notNull(beanDefinition, String.format("beanName=%s is not found in the registry", beanName));
+		return build(registry, Optional.ofNullable(beanName), beanDefinition);
 	}
 
 	static BeanNav build(BeanDefinitionRegistry registry, BeanDefinition beanDefinition) {
-		return build(registry, null, beanDefinition);
+		return build(registry, Optional.empty(), beanDefinition);
 	}
 	
-	static BeanNav build(BeanDefinitionRegistry registry, String id, BeanDefinition beanDefinition) {
+	static BeanNav build(BeanDefinitionRegistry registry, Optional<String> id, BeanDefinition beanDefinition) {
 		return new BeanNav(registry, id, beanDefinition);
 	}
 
@@ -39,7 +43,8 @@ public class BeanNav extends AbtractBaseNavigator {
 	 * @return if logically equals
 	 */
 	public boolean isClass(Class<?> clazz) {
-		return isClass((clazz == null) ? null : clazz.getCanonicalName());
+		Assert.notNull(clazz, "clazz parameter cannot be null!");
+		return isClass(clazz.getCanonicalName());
 	}
 
 	/**
@@ -48,6 +53,8 @@ public class BeanNav extends AbtractBaseNavigator {
 	 * @return if logically equals
 	 */
 	public boolean isClass(String className) {
+		Assert.notNull(className, "className parameter cannot be null");
+		
 		if (beanDefinition.getBeanClassName() != null) {
 			return beanDefinition.getBeanClassName().equals(className);
 		}
@@ -57,8 +64,9 @@ public class BeanNav extends AbtractBaseNavigator {
 	/**
 	 * Get the id attribute when exist from &lt;bean id&gt;. May return null.
 	 * @return Id attribute
+	 * @since 2.3
 	 */
-	public String id() {
+	public Optional<String> id() {
 		return id;
 	}
 

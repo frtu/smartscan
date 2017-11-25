@@ -17,7 +17,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class MapBeansNav extends AbtractBaseNavigator {
+public class MapBeansNav extends AbstractBaseNavigator {
 	private Map<TypedStringValue, Object> innerObject;
 
 	@SuppressWarnings("unchecked")

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * 
  * @author fred
  */
-public class SetBeansNav extends AbtractBaseNavigator {
+public class SetBeansNav extends AbstractBaseNavigator {
 	private Set<?> innerObject;
 
 	SetBeansNav(BeanDefinitionRegistry registry, Set<?> value) {

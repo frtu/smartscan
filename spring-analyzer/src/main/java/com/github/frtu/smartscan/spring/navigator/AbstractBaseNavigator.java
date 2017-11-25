@@ -9,21 +9,23 @@ import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.config.TypedStringValue;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
+import org.springframework.util.Assert;
 
 /**
  * Base class for all XML config Navigation classes in this package.
  * 
  * @author fred
  */
-public abstract class AbtractBaseNavigator {
+public abstract class AbstractBaseNavigator {
 	private BeanDefinitionRegistry registry;
 
-	public AbtractBaseNavigator() {
+	public AbstractBaseNavigator() {
 		this(new SimpleBeanDefinitionRegistry());
 	}
 
-	public AbtractBaseNavigator(BeanDefinitionRegistry registry) {
+	public AbstractBaseNavigator(BeanDefinitionRegistry registry) {
 		super();
+		Assert.notNull(registry, "registry cannot be null!");
 		this.registry = registry;
 	}
 
@@ -59,7 +61,7 @@ public abstract class AbtractBaseNavigator {
 		if (List.class.isAssignableFrom(value.getClass())) {
 			return new ListBeansNav(registry, (List<?>) value);
 		}
-		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
+		throw new IllegalStateException("The <property> doesn't contains a <list> but rather :" + value.getClass());
 	}
 
 	protected static SetBeansNav buildSet(BeanDefinitionRegistry registry, Object value) {
@@ -81,6 +83,6 @@ public abstract class AbtractBaseNavigator {
 		if (Map.class.isAssignableFrom(value.getClass())) {
 			return new MapBeansNav(registry, (Map<?, ?>) value);
 		}
-		throw new IllegalStateException("The <property> doesn't contains a <map> but rather :" + value.getClass());
+		throw new IllegalStateException("The <property> doesn't contains a <set> but rather :" + value.getClass());
 	}
 }

@@ -2,7 +2,7 @@ package com.github.frtu.smartscan.spring.navigator;
 
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
-public abstract class IntermediateNav extends AbtractBaseNavigator {
+public abstract class IntermediateNav extends AbstractBaseNavigator {
 	protected IntermediateNav(BeanDefinitionRegistry registry) {
 		super(registry);
 	}
