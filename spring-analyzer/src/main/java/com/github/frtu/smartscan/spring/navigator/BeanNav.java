@@ -11,20 +11,26 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
  * @author fred
  */
 public class BeanNav extends AbtractBaseNavigator {
+	private String id;
 	private BeanDefinition beanDefinition;
-
-	private BeanNav(BeanDefinitionRegistry registry, BeanDefinition beanDefinition) {
+	
+	private BeanNav(BeanDefinitionRegistry registry, String id, BeanDefinition beanDefinition) {
 		super(registry);
+		this.id = id;
 		this.beanDefinition = beanDefinition;
 	}
 
 	static BeanNav build(BeanDefinitionRegistry registry, String beanName) throws NoSuchBeanDefinitionException {
 		BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
-		return build(registry, beanDefinition);
+		return build(registry, beanName, beanDefinition);
 	}
 
 	static BeanNav build(BeanDefinitionRegistry registry, BeanDefinition beanDefinition) {
-		return new BeanNav(registry, beanDefinition);
+		return build(registry, null, beanDefinition);
+	}
+	
+	static BeanNav build(BeanDefinitionRegistry registry, String id, BeanDefinition beanDefinition) {
+		return new BeanNav(registry, id, beanDefinition);
 	}
 
 	public boolean isClass(Class<?> clazz) {
@@ -40,6 +46,10 @@ public class BeanNav extends AbtractBaseNavigator {
 
 	public BeanDefinition getBeanDefinition() {
 		return beanDefinition;
+	}
+	
+	public String id() {
+		return id;
 	}
 
 	public PropertyNav property(String propertyName) {
