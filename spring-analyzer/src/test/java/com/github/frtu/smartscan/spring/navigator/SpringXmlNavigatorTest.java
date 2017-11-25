@@ -27,8 +27,6 @@ public class SpringXmlNavigatorTest {
 		BeanNav bean = springXmlNavigator.bean("anotherExampleBean");
 		assertNotNull(bean);
 		assertNotNull(bean.getBeanDefinition());
-		assertFalse(bean.isClass((String) null));
-		assertFalse(bean.isClass((Class<?>) null));
 		assertTrue(bean.isClass("examples.AnotherBean"));
 	}
 
