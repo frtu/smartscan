@@ -91,6 +91,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * 
 	 * @param propertyName the name of the property
 	 * @return the list of BeanNav referred using list tag
+	 * @since 2.4
 	 */
 	public ListBeansNav listBeansOf(String propertyName) {
 		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildList, false);
@@ -101,6 +102,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * 
 	 * @param propertyName the name of the property
 	 * @return the set of BeanNav referred using set tag
+	 * @since 2.4
 	 */
 	public SetBeansNav setBeansOf(String propertyName) {
 		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildSet, false);
@@ -111,6 +113,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * 
 	 * @param propertyName the name of the property
 	 * @return the map of BeanNav referred using map tag
+	 * @since 2.4
 	 */
 	public MapBeansNav mapBeansOf(String propertyName) {
 		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildMap, false);
@@ -121,6 +124,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * 
 	 * @param propertyName the name of the property
 	 * @return String value contained in the tag
+	 * @since 2.4
 	 */
 	public String valueOf(String propertyName) {
 		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildString, true);
@@ -131,6 +135,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * 
 	 * @param propertyName the name of the property
 	 * @return the BeanNav referred using ref
+	 * @since 2.4
 	 */
 	public BeanNav refOf(String propertyName) {
 		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildBean, true);
