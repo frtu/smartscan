@@ -1,4 +1,4 @@
-package com.github.frtu.smartscan.spring.navigator;
+package com.github.frtu.smartscan.spring.registry;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -12,6 +12,8 @@ import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import com.github.frtu.smartscan.spring.navigator.BeanNav;
 
 /**
  * Base class for all Spring configurations location &amp; initialization

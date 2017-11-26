@@ -23,7 +23,7 @@ public abstract class IntermediateNav extends AbstractBaseNavigator {
 		if (innerObject() == null) {
 			return null;
 		}
-		return buildString(super.getRegistry(), innerObject());
+		return BaseBuilder.buildString(super.getRegistry(), innerObject());
 	}
 
 	/**
@@ -35,7 +35,7 @@ public abstract class IntermediateNav extends AbstractBaseNavigator {
 		if (innerObject() == null) {
 			return null;
 		}
-		return buildBean(super.getRegistry(), innerObject());
+		return BaseBuilder.buildBean(super.getRegistry(), innerObject());
 	}
 
 	/**
@@ -44,7 +44,7 @@ public abstract class IntermediateNav extends AbstractBaseNavigator {
 	 * @return the list of BeanNav referred using list tag
 	 */
 	public ListBeansNav listBeans() {
-		return buildList(super.getRegistry(), innerObject());
+		return BaseBuilder.buildList(super.getRegistry(), innerObject());
 	}
 
 	/**
@@ -53,7 +53,7 @@ public abstract class IntermediateNav extends AbstractBaseNavigator {
 	 * @return the set of BeanNav referred using set tag
 	 */
 	public SetBeansNav setBeans() {
-		return buildSet(super.getRegistry(), innerObject());
+		return BaseBuilder.buildSet(super.getRegistry(), innerObject());
 	}
 
 	/**
@@ -62,6 +62,6 @@ public abstract class IntermediateNav extends AbstractBaseNavigator {
 	 * @return the map of BeanNav referred using map tag
 	 */
 	public MapBeansNav mapBeans() {
-		return buildMap(super.getRegistry(), innerObject());
+		return BaseBuilder.buildMap(super.getRegistry(), innerObject());
 	}
 }

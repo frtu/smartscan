@@ -23,7 +23,7 @@ public class BeanNav extends AbstractBaseNavigator {
 		this.beanDefinition = beanDefinition;
 	}
 
-	static BeanNav build(BeanDefinitionRegistry registry, String beanName) throws NoSuchBeanDefinitionException {
+	public static BeanNav build(BeanDefinitionRegistry registry, String beanName) throws NoSuchBeanDefinitionException {
 		BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
 		Assert.notNull(beanDefinition, String.format("beanName=%s is not found in the registry", beanName));
 		return build(registry, Optional.ofNullable(beanName), beanDefinition);
@@ -94,7 +94,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * @since 2.4
 	 */
 	public ListBeansNav listBeansOf(String propertyName) {
-		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildList, false);
+		return buildWithPropertyValue(propertyName, BaseBuilder::buildList, false);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * @since 2.4
 	 */
 	public SetBeansNav setBeansOf(String propertyName) {
-		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildSet, false);
+		return buildWithPropertyValue(propertyName, BaseBuilder::buildSet, false);
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * @since 2.4
 	 */
 	public MapBeansNav mapBeansOf(String propertyName) {
-		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildMap, false);
+		return buildWithPropertyValue(propertyName, BaseBuilder::buildMap, false);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * @since 2.4
 	 */
 	public String valueOf(String propertyName) {
-		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildString, true);
+		return buildWithPropertyValue(propertyName, BaseBuilder::buildString, true);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class BeanNav extends AbstractBaseNavigator {
 	 * @since 2.4
 	 */
 	public BeanNav refOf(String propertyName) {
-		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildBean, true);
+		return buildWithPropertyValue(propertyName, BaseBuilder::buildBean, true);
 	}
 
 	/*

@@ -3,7 +3,7 @@ package com.github.frtu.smartscan.spring;
 import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.github.frtu.smartscan.spring.navigator.AbstractSpringRegistryNavigator;
+import com.github.frtu.smartscan.spring.registry.AbstractSpringRegistryNavigator;
 
 /**
  * Very similar usage like {@link ClassPathXmlApplicationContext}.

@@ -94,22 +94,6 @@ public class MapBeansNav extends AbstractBaseNavigator {
 	}
 
 	/**
-	 * Deprecated, use {@link #forEachEntry(Consumer)} instead !
-	 * 
-	 * @param mapVisitorString Visitor class
-	 */
-	@Deprecated
-	public void visit(MapBeansVisitor<EntryNav> mapVisitorString) {
-		if (this.innerObject != null) {
-			Set<Entry<TypedStringValue, Object>> entrySet = innerObject.entrySet();
-			for (Entry<TypedStringValue, Object> entry : entrySet) {
-				EntryNav entryNav = new EntryNav(super.getRegistry(), entry);
-				mapVisitorString.visit(entry.getKey().getValue(), entryNav);
-			}
-		}
-	}
-
-	/**
 	 * Convert inner spring map definition into Map&lt;String, String&gt; of a tuple (key, string_value).
 	 * 
 	 * @return a map of (key, string_value).

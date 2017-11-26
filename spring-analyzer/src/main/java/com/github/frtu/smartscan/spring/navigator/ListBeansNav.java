@@ -25,7 +25,7 @@ public class ListBeansNav extends AbstractBaseNavigator {
 			return null;
 		}
 		Object objResult = innerObject.get(index);
-		return buildString(super.getRegistry(), objResult);
+		return BaseBuilder.buildString(super.getRegistry(), objResult);
 	}
 	
 	public BeanNav bean(int index) {
@@ -33,7 +33,7 @@ public class ListBeansNav extends AbstractBaseNavigator {
 			return null;
 		}
 		Object objResult = innerObject.get(index);
-		return buildBean(super.getRegistry(), objResult);
+		return BaseBuilder.buildBean(super.getRegistry(), objResult);
 	}
 	
 	public Stream<String> streamString() {
