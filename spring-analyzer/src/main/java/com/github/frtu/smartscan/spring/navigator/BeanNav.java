@@ -85,4 +85,70 @@ public class BeanNav extends AbstractBaseNavigator {
 		PropertyValue propertyValue = beanDefinition.getPropertyValues().getPropertyValue(propertyName);
 		return new PropertyNav(super.getRegistry(), propertyValue);
 	}
+	
+	/**
+	 * Correspond to &lt;property name="beanTwo"&gt;&lt;list&gt;
+	 * 
+	 * @param propertyName the name of the property
+	 * @return the list of BeanNav referred using list tag
+	 */
+	public ListBeansNav listBeansOf(String propertyName) {
+		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildList, false);
+	}
+
+	/**
+	 * Correspond to &lt;property name="beanTwo"&gt;&lt;set&gt;
+	 * 
+	 * @param propertyName the name of the property
+	 * @return the set of BeanNav referred using set tag
+	 */
+	public SetBeansNav setBeansOf(String propertyName) {
+		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildSet, false);
+	}
+
+	/**
+	 * Correspond to &lt;property name="beanTwo"&gt;&lt;map&gt;
+	 * 
+	 * @param propertyName the name of the property
+	 * @return the map of BeanNav referred using map tag
+	 */
+	public MapBeansNav mapBeansOf(String propertyName) {
+		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildMap, false);
+	}
+	
+	/**
+	 * Correspond to &lt;property name="integerProperty2" value="1"/&gt;
+	 * 
+	 * @param propertyName the name of the property
+	 * @return String value contained in the tag
+	 */
+	public String valueOf(String propertyName) {
+		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildString, true);
+	}
+
+	/**
+	 * Correspond to &lt;property name="beanTwo" ref="yetAnotherBean"/&gt;
+	 * 
+	 * @param propertyName the name of the property
+	 * @return the BeanNav referred using ref
+	 */
+	public BeanNav refOf(String propertyName) {
+		return buildWithPropertyValue(propertyName, AbstractBaseNavigator::buildBean, true);
+	}
+
+	/*
+	 * @param propertyName the name of the property
+	 * @param builder
+	 * @return
+	 */
+	private <T> T buildWithPropertyValue(String propertyName, Builder<T> builder, boolean isReturnNull) {
+		PropertyValue propertyValue = beanDefinition.getPropertyValues().getPropertyValue(propertyName);
+		if (propertyValue == null) {
+			if (isReturnNull) {
+				return null;
+			}
+			return builder.accept(super.getRegistry(), null);
+		}
+		return builder.accept(super.getRegistry(), propertyValue.getValue());
+	}
 }

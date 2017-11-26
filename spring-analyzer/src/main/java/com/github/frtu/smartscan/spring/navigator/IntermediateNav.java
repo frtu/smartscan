@@ -10,7 +10,7 @@ public abstract class IntermediateNav extends AbstractBaseNavigator {
 	/**
 	 * Return the encapsulated object. MAY RETURN NULL.
 	 * 
-	 * @return
+	 * @return internal object
 	 */
 	protected abstract Object innerObject();
 
@@ -23,7 +23,7 @@ public abstract class IntermediateNav extends AbstractBaseNavigator {
 		if (innerObject() == null) {
 			return null;
 		}
-		return buildString(innerObject());
+		return buildString(super.getRegistry(), innerObject());
 	}
 
 	/**

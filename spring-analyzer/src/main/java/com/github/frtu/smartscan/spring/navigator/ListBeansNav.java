@@ -25,7 +25,7 @@ public class ListBeansNav extends AbstractBaseNavigator {
 			return null;
 		}
 		Object objResult = innerObject.get(index);
-		return buildString(objResult);
+		return buildString(super.getRegistry(), objResult);
 	}
 	
 	public BeanNav bean(int index) {

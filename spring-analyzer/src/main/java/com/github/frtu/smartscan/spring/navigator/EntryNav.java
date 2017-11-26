@@ -27,7 +27,13 @@ public class EntryNav extends IntermediateNav {
 		return entry.getValue();
 	}
 
-	protected String key() {
+	/**
+	 * Get the key of this &lt;entry key&gt; tag
+	 * 
+	 * @return key of this entry
+	 * @since 2.4
+	 */
+	public String key() {
 		if (entry == null) {
 			return null;
 		}

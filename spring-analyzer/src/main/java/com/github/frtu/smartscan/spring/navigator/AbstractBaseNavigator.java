@@ -33,7 +33,7 @@ public abstract class AbstractBaseNavigator {
 		return registry;
 	}
 
-	protected static String buildString(Object object) {
+	protected static String buildString(BeanDefinitionRegistry registry, Object object) {
 		if (object instanceof TypedStringValue) {
 			TypedStringValue typedStringValue = (TypedStringValue) object;
 			return typedStringValue.getValue();
