@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.AbstractRefreshableConfigApplicationContext;
@@ -13,7 +14,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import com.github.frtu.smartscan.spring.navigator.BeanNav;
-import com.github.frtu.smartscan.spring.stream.NavigationStream;
+import com.github.frtu.smartscan.spring.stream.StreamNav;
+import com.github.frtu.smartscan.spring.stream.StreamNavImpl;
 
 /**
  * Base class for all Spring configurations location &amp; initialization
@@ -58,10 +60,14 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 		return BeanNav.build(this.registry, beanName);
 	}
 
-	public Stream<BeanNav> streamBean() {
-		NavigationStream navigationStream = new NavigationStream(this.registry);
-		return navigationStream.streamBeanNav();
+	private StreamNav streamNav() {
+		return new StreamNavImpl(this.registry);
 	}
+	
+	public Stream<BeanNav> streamBean() {
+		return new StreamNavImpl(this.registry).streamBean();
+	}
+
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
