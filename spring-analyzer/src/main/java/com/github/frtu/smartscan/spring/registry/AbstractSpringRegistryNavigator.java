@@ -1,6 +1,5 @@
 package com.github.frtu.smartscan.spring.registry;
 
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -14,6 +13,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import com.github.frtu.smartscan.spring.navigator.BeanNav;
+import com.github.frtu.smartscan.spring.stream.NavigationStream;
 
 /**
  * Base class for all Spring configurations location &amp; initialization
@@ -59,8 +59,8 @@ public abstract class AbstractSpringRegistryNavigator implements InitializingBea
 	}
 
 	public Stream<BeanNav> streamBean() {
-		Stream<String> streamBeanName = Arrays.asList(this.registry.getBeanDefinitionNames()).stream();
-		return streamBeanName.map(beanName -> BeanNav.build(this.registry, beanName));
+		NavigationStream navigationStream = new NavigationStream(this.registry);
+		return navigationStream.streamBeanNav();
 	}
 
 	@Override
