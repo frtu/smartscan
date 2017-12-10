@@ -19,6 +19,7 @@
 
 	<modules>
 		<module>spring-analyzer</module>
+		<module>text-toolbox</module>
 	</modules>
 
 	<licenses>
