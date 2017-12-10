@@ -1,6 +1,37 @@
 # smartscan
 A toolbox to scan config file and provide high level architecture information
 
+## text-toolbox
+
+### Import
+
+```XML
+<dependency>
+    <groupId>com.github.frtu.smartscan</groupId>
+    <artifactId>text-toolbox</artifactId>
+    <version>0.2.1</version>
+</dependency>
+```
+To see the latest version, please refer to : 
+[Maven Centralized repository search](
+http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.frtu.smartscan%22%20AND%20a%3A%22text-toolbox%22)
+
+### Simple usage
+
+```
+	@Test
+	public void testCapture() {
+		Pattern pattern = PatternBuilder.capture().digits("year").skipSpace().word("word").skipDot()
+		        .seq("field", "name", "type").build();
+
+		Matcher matcher = pattern.matcher("2017    subpackage....name");
+		assertTrue(matcher.find());
+		assertEquals("name", matcher.group("field"));
+		assertEquals("subpackage", matcher.group("word"));
+		assertEquals("2017", matcher.group("year"));
+	}
+```
+
 ## spring-analyzer
 
 ### Import
