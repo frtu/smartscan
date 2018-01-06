@@ -18,11 +18,31 @@ http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.frtu.smartscan%22%
 
 ### Simple usage
 
+Build a _PatternBuilder_ with _PatternBuilder.capture()_.
+
+Define a sequence of elements (seq) you want to capture and separator (splitWith) using :
+
+- seq(String sequenceName, String sequencePattern)
+- splitWith(String text)
+
+To facilitate the sequence definition, use shortcut of capture with :
+
+- digits [0-9]
+- word [a-zA-Z_0-9]
+- wordContaining [a-zA-Z_0-9] + Custom chars
+- any (.*)
+- enumeration (xx|yy|zz)
+
 ```
-	@Test
-	public void testCapture() {
-		Pattern pattern = PatternBuilder.capture().digits("year").skipSpace().word("word").skipDot()
-		        .seq("field", "name", "type").build();
+@Test
+public void testCapture() {
+	Pattern pattern = PatternBuilder.capture()
+        .digits("year")
+          .splitWithSpaces()
+        .word("word")
+          .splitWithDots()
+        .enumeration("field", "name", "type")
+          .build();
 
 		Matcher matcher = pattern.matcher("2017    subpackage....name");
 		assertTrue(matcher.find());
@@ -31,6 +51,30 @@ http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.frtu.smartscan%22%
 		assertEquals("2017", matcher.group("year"));
 	}
 ```
+
+```
+@Test
+public void testWordContaining() {
+	Pattern pattern = PatternBuilder.capture()
+        .wordContaining("first", '.', ',')
+          .splitWith(';')
+        .wordContaining("second", ' ', ':')
+          .build();
+
+	String firstWord = "a.word..with.dot,and,,comma";
+	String secondWord = "another one with space:and::semicolon";
+	Matcher matcher = pattern.matcher(firstWord + ";" + secondWord 
+	     + ";anything else.with:other;char");
+
+	assertTrue(matcher.find());
+	assertEquals(secondWord, matcher.group("second"));
+	assertEquals(firstWord, matcher.group("first"));
+}
+```
+
+You can also Annotate previously defined with :
+
+- isOptional()
 
 ## spring-analyzer
 
