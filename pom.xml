@@ -10,7 +10,7 @@
 
 	<groupId>com.github.frtu.smartscan</groupId>
 	<artifactId>smartscan-pom</artifactId>
-	<version>0.2.5-SNAPSHOT</version>
+	<version>0.2.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Smart Scan toolbox</name>
@@ -235,7 +235,7 @@
 				<version>2.5.3</version>
 				<configuration>
 					<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
-					<tagNameFormat>v@{project.version}</tagNameFormat>
+					<tagNameFormat>v@{project.version}-text</tagNameFormat>
 					<releaseProfiles>release-sign-artifacts</releaseProfiles>
 				</configuration>
 			</plugin>
