@@ -45,7 +45,38 @@ public class PatternBuilder {
 	}
 
 	/**
-	 * Capture a anything (Attention, since it is eager, make sure you add separator using {@link #skip(String)}
+	 * Capture a word with dot [a-zA-Z_0-9\.]
+	 * 
+	 * @param sequenceName
+	 *            Name of the captured word
+	 * @return itself
+	 */
+	public PatternBuilder wordContainingDots(String sequenceName) {
+		return wordContaining(sequenceName, '.');
+	}
+
+	/**
+	 * Capture a word [a-zA-Z_0-9] containing other characters (like dot, ...)
+	 * 
+	 * @param sequenceName
+	 *            Name of the captured word
+	 * @param additionalCharacters any other charaters
+	 * @return itself
+	 * @since 2.2
+	 */
+	public PatternBuilder wordContaining(String sequenceName, char... additionalCharacters) {
+		StringBuilder pattern = new StringBuilder();
+		pattern.append("[a-zA-Z_0-9");
+		for (char c : additionalCharacters) {
+			pattern.append("\\").append(c);
+		}
+		pattern.append("]+");
+		
+		return seq(sequenceName, pattern.toString());
+	}
+	
+	/**
+	 * Capture a anything (Attention, since it is eager, make sure you add separator using {@link #splitWith(String)}
 	 * 
 	 * @param sequenceName
 	 *            Name of the captured group
@@ -60,12 +91,25 @@ public class PatternBuilder {
 	 * 
 	 * @param sequenceName
 	 *            Name of the captured sequence
-	 * @param sequence
+	 * @param options
+	 *            All the options
+	 * @return itself
+	 * @since 2.2
+	 */
+	public PatternBuilder enumeration(String sequenceName, String... options) {
+		return enumeration(sequenceName, Stream.of(options));
+	}
+
+	/**
+	 * @param sequenceName
+	 *            Name of the captured sequence
+	 * @param options
 	 *            All the options
 	 * @return itself
 	 */
-	public PatternBuilder seq(String sequenceName, String... sequence) {
-		return seq(sequenceName, Stream.of(sequence));
+	@Deprecated
+	public PatternBuilder seq(String sequenceName, String... options) {
+		return enumeration(sequenceName, Stream.of(options));
 	}
 
 	/**
@@ -73,13 +117,13 @@ public class PatternBuilder {
 	 * 
 	 * @param sequenceName
 	 *            Name of the captured sequence
-	 * @param streamSequence
+	 * @param streamOptions
 	 *            Stream of optional string
 	 * @return itself
 	 */
-	public PatternBuilder seq(String sequenceName, Stream<String> streamSequence) {
+	private PatternBuilder enumeration(String sequenceName, Stream<String> streamOptions) {
 		// Regex capture find the first match, so longuest should be first
-		String sequencePattern = streamSequence.sorted(Comparator.comparingInt(String::length).reversed())
+		String sequencePattern = streamOptions.sorted(Comparator.comparingInt(String::length).reversed())
 		        .collect(Collectors.joining("|"));
 
 		return seq(sequenceName, sequencePattern);
@@ -110,21 +154,36 @@ public class PatternBuilder {
 	}
 
 	/**
-	 * Separate with whitespace
+	 * Separate with ONE OR MANY whitespace
 	 * 
 	 * @return itself
+	 * @since 2.2
 	 */
-	public PatternBuilder skipSpace() {
-		return skip("\\s+");
+	public PatternBuilder splitWithSpaces() {
+		return splitWith("\\s+");
 	}
 
 	/**
-	 * Separate with dot '.'
+	 * Separate with ONE OR MANY dot '.'
 	 * 
 	 * @return itself
+	 * @since 2.2
 	 */
-	public PatternBuilder skipDot() {
-		return skip("\\.+");
+	public PatternBuilder splitWithDots() {
+		return splitWith("\\.+");
+	}
+
+	/**
+	 * Separator of ONE character
+	 * 
+	 * @param character
+	 *            A character
+	 * @return itself
+	 * @since 2.2
+	 */
+	public PatternBuilder splitWith(char character) {
+		regexStringBuilder.append("\\").append(character);
+		return this;
 	}
 
 	/**
@@ -133,10 +192,39 @@ public class PatternBuilder {
 	 * @param text
 	 *            A text
 	 * @return itself
+	 * @since 2.2
 	 */
-	public PatternBuilder skip(String text) {
+	public PatternBuilder splitWith(String text) {
 		regexStringBuilder.append(text);
 		return this;
+	}
+
+	/**
+	 * @return itself
+	 * @deprecated use {@link #splitWithSpaces()} instead
+	 */
+	@Deprecated
+	public PatternBuilder skipSpace() {
+		return splitWithSpaces();
+	}
+
+	/**
+	 * @return itself
+	 * @deprecated use {@link #splitWithDots()} instead
+	 */
+	@Deprecated
+	public PatternBuilder skipDot() {
+		return splitWithDots();
+	}
+
+	/**
+	 * @param text a text
+	 * @return itself
+	 * @deprecated use {@link #splitWith(String)} instead
+	 */
+	@Deprecated
+	public PatternBuilder skip(String text) {
+		return splitWith(text);
 	}
 
 	/**

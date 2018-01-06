@@ -13,7 +13,7 @@ public class PatternBuilderTest {
 		String sequenceName = "sequenceName";
 		String[] seqOptions = { "aa", "bb", "cc" };
 
-		Pattern pattern = PatternBuilder.capture().seq(sequenceName, seqOptions).build();
+		Pattern pattern = PatternBuilder.capture().enumeration(sequenceName, seqOptions).build();
 
 		for (String option : seqOptions) {
 			Matcher matcher = pattern.matcher("xxx" + option + "yyy");
@@ -23,9 +23,23 @@ public class PatternBuilderTest {
 	}
 
 	@Test
+	public void testWordContaining() {
+		Pattern pattern = PatternBuilder.capture().wordContaining("first", '.', ',').splitWith(';')
+		        .wordContaining("second", ' ', ':').build();
+
+		String firstWord = "a.word..with.dot,and,,comma";
+		String secondWord = "another one with space:and::semicolon";
+		Matcher matcher = pattern.matcher(firstWord + ";" + secondWord + ";anything else.with:other;char");
+
+		assertTrue(matcher.find());
+		assertEquals(secondWord, matcher.group("second"));
+		assertEquals(firstWord, matcher.group("first"));
+	}
+
+	@Test
 	public void testThreeLayers() {
-		Pattern pattern = PatternBuilder.capture().digits("year").skipSpace().word("word").skipDot()
-		        .seq("field", "name", "type").build();
+		Pattern pattern = PatternBuilder.capture().digits("year").splitWithSpaces().word("word").splitWithDots()
+		        .enumeration("field", "name", "type").build();
 
 		Matcher matcher = pattern.matcher("2017    subpackage....name");
 		assertTrue(matcher.find());
@@ -36,7 +50,7 @@ public class PatternBuilderTest {
 
 	@Test
 	public void testSeparator() {
-		Pattern pattern = PatternBuilder.capture().any("left").skip("separator").any("right").build();
+		Pattern pattern = PatternBuilder.capture().any("left").splitWith("separator").any("right").build();
 
 		Matcher matcher = pattern.matcher("titi.toto.separator.coucou.lala");
 		assertTrue(matcher.find());
@@ -46,7 +60,8 @@ public class PatternBuilderTest {
 
 	@Test
 	public void testAny() {
-		Pattern pattern = PatternBuilder.capture().word("first").skipDot().word("second").skipDot().any("all").build();
+		Pattern pattern = PatternBuilder.capture().word("first").splitWithDots().word("second").splitWithDots().any("all")
+		        .build();
 
 		Matcher matcher = pattern.matcher("titi.toto.tata.coucou.lala");
 		assertTrue(matcher.find());
