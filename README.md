@@ -9,7 +9,7 @@ A toolbox to scan config file and provide high level architecture information
 <dependency>
     <groupId>com.github.frtu.smartscan</groupId>
     <artifactId>text-toolbox</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
 </dependency>
 ```
 To see the latest version, please refer to : 
