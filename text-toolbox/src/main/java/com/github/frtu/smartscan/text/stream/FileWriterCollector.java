@@ -26,6 +26,7 @@ import java.util.stream.Collector;
  * @author frtu
  *
  * @param <T>
+ *            Parametrized collector
  * @since 2.5
  */
 public class FileWriterCollector<T> implements Collector<T, Map<Path, BufferedWriter>, Set<Path>> {
