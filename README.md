@@ -9,31 +9,16 @@ A toolbox to scan config file and provide high level architecture information
 <dependency>
     <groupId>com.github.frtu.smartscan</groupId>
     <artifactId>text-toolbox</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.5</version>
 </dependency>
 ```
 To see the latest version, please refer to : 
 [Maven Centralized repository search](
 http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.github.frtu.smartscan%22%20AND%20a%3A%22text-toolbox%22)
 
-### StringStreamUtils
-
-Since 2.3, allow the easy manipulation of String into Stream.map() 
-
-- sentence -> last word 
-- Class.getCanonicalName() -> Class.getSimpleName()
-
-```
-List<String> wordList = Stream.of(null, "word1", "This sentence last word2", 
-			"Another sentence last word3", "A third sentence last word4")
-		.map(StringStreamUtils::getLastWord)
-			.flatMap(o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty())
-		.collect(Collectors.toList());
-```
-
 ### PatternBuilder - Simple usage
 
-Build a _PatternBuilder_ with _PatternBuilder.capture()_.
+Since 2.2, build a _PatternBuilder_ with _PatternBuilder.capture()_.
 
 Define a sequence of elements (seq) you want to capture and separator (splitWith) using :
 
@@ -90,6 +75,59 @@ public void testWordContaining() {
 You can also Annotate previously defined with :
 
 - isOptional()
+
+
+### StringStreamUtils
+
+Since 2.5, allow the easy manipulation of String into Stream.map() 
+
+- .getLastWord() : sentence -> last word 
+- .getClassname() : Class.getCanonicalName() -> Class.getSimpleName()
+
+```
+List<String> wordList = Stream.of(null, "word1", "This sentence last word2", 
+			"Another sentence last word3", "A third sentence last word4")
+		.map(StringStreamUtils::getLastWord)
+			.collect(Collectors.toList());
+```
+
+To skip null or blank text, just use :
+
+- .isNotEmpty() : null & ""
+- .isNotBlank() : null, "" & " "
+
+```
+List<String> wordList = Stream.of(null, "word1", "This sentence last word2", 
+			"Another sentence last word3", "A third sentence last word4")
+		.filter(StringStreamUtils::isNotBlank)
+			.map(StringStreamUtils::getLastWord)
+			.collect(Collectors.toList());
+```
+
+### FileWriterCollector
+
+Since 2.5, allow to write all kind of Stream into a file.
+
+```
+@Test
+public void testToCollector() {
+	Stream<TestObject> stream = Stream.of(
+		new TestObject("key1", "value1"), 
+		new TestObject("key2", "value2"),
+		new TestObject("someKey", "someValue"));
+
+	stream.filter(obj -> obj.getKey().startsWith("key"))
+		.collect(
+	        FileWriterCollector.toCollector(
+	        	obj -> Paths.get("target/" + obj.getKey()), 
+	        	obj -> obj.getValue()
+	        )
+	    );
+	assertTrue(Paths.get("target/key1").toFile().exists());
+	assertTrue(Paths.get("target/key2").toFile().exists());
+}
+```
+
 
 ## spring-analyzer
 
