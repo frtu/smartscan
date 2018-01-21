@@ -1,4 +1,4 @@
-package com.github.frtu.smartscan.text;
+package com.github.frtu.smartscan.text.stream;
 
 import java.util.stream.Stream;
 
@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
  * </p>
  * 
  * @author frtu
- * @since 2.4 This version is more simple by considering null as a pass through.
+ * @since 2.5 This version is more simple by considering null as a pass through.
  */
 public class StringStreamUtils {
 	private static final String DOT = ".";

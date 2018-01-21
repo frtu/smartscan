@@ -1,4 +1,4 @@
-package com.github.frtu.smartscan.text;
+package com.github.frtu.smartscan.text.stream;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
+
+import com.github.frtu.smartscan.text.stream.StringStreamUtils;
 
 public class StringStreamUtilsTest {
 	private static final String EMPTY = "";
