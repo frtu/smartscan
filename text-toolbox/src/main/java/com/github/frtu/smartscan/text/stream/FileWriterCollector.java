@@ -14,6 +14,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Allow to write into a filename based on a path mapper, using values from a value mapper using
  * {@link FileWriterCollector#toCollector(Function, Function)}.
@@ -30,6 +33,8 @@ import java.util.stream.Collector;
  * @since 2.5
  */
 public class FileWriterCollector<T> implements Collector<T, Map<Path, BufferedWriter>, Set<Path>> {
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileWriterCollector.class);
+	
 	private Function<? super T, Path> pathMapper;
 	private Function<? super T, String> dataMapper;
 
@@ -62,7 +67,8 @@ public class FileWriterCollector<T> implements Collector<T, Map<Path, BufferedWr
 				bufferedWriter.write(dataMapper.apply(t));
 				bufferedWriter.flush();
 			} catch (IOException e) {
-				e.printStackTrace();
+				// TODO handle error and close writer
+				LOGGER.error(e.getMessage(), e);
 			}
 		};
 	}
