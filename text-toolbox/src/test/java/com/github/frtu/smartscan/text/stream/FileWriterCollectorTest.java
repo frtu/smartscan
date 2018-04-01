@@ -2,14 +2,12 @@ package com.github.frtu.smartscan.text.stream;
 
 import static org.junit.Assert.*;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import org.junit.Test;
 
 import com.github.frtu.smartscan.text.stream.FileWriterCollector;
-import com.github.frtu.smartscan.text.stream.FileWriterCollectorTest.TestObject;
 
 public class FileWriterCollectorTest {
 	public class TestObject {
