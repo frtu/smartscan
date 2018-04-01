@@ -9,7 +9,7 @@ A toolbox to scan config file and provide high level architecture information
 <dependency>
     <groupId>com.github.frtu.smartscan</groupId>
     <artifactId>text-toolbox</artifactId>
-    <version>0.2.5</version>
+    <version>0.2.6</version>
 </dependency>
 ```
 To see the latest version, please refer to : 
@@ -79,7 +79,7 @@ You can also Annotate previously defined with :
 
 ### StringStreamUtils
 
-Since 2.5, allow the easy manipulation of String into Stream.map() 
+Since 2.6, allow the easy manipulation of String into Stream.map() 
 
 - .getLastWord() : sentence -> last word 
 - .getClassname() : Class.getCanonicalName() -> Class.getSimpleName()
@@ -106,7 +106,7 @@ List<String> wordList = Stream.of(null, "word1", "This sentence last word2",
 
 ### FileWriterCollector
 
-Since 2.5, allow to write all kind of Stream into a file.
+Since 2.6, allow to write all kind of Stream into a file.
 
 ```
 @Test
